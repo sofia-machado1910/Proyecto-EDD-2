@@ -5,18 +5,24 @@
 package proyectoedd_2;
 
 import javax.swing.*;
-import java.io.*;
-import java.awt.event.ActionEvent;
-import org.json.simple.*;
-import org.json.simple.parser.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
- * Clase Ventana1 para crear una interfaz gráfica de usuario en la que se pueda cargar archivos JSON desde el dispositivo y leer el mismo.
+ * Clase Ventana1 para crear una interfaz gráfica de usuario en la que se pueda cargar archivos JSON desde el dispositivo, 
+ * leer el mismo y buscar la información de alguna persona en específico.
  * 
  * @author Sofia Machado
  */
-public class Ventana1 extends javax.swing.JFrame {
 
+public class Ventana1 extends javax.swing.JFrame {
+    private hashTable hashTable; // Instancia de la tabla de dispersión
     /**
      * Constructor de la clase Ventana1.
      * Este constructor lo que hace es inicializar los componentes de la ventana y a la vez centra la ventana en la pantalla.
@@ -24,6 +30,7 @@ public class Ventana1 extends javax.swing.JFrame {
     public Ventana1() {
         initComponents();
         this.setLocationRelativeTo(null);
+        hashTable = new hashTable(100);
     }
 
     /**
@@ -43,8 +50,8 @@ public class Ventana1 extends javax.swing.JFrame {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("Carga y lectura de JSON");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, -1, -1));
+        jLabel1.setText("Búsqueda de personas en JSON");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, -1, -1));
 
         CargarJSON.setText("Cargar");
         CargarJSON.addActionListener(new java.awt.event.ActionListener() {
@@ -52,17 +59,17 @@ public class Ventana1 extends javax.swing.JFrame {
                 CargarJSONActionPerformed(evt);
             }
         });
-        jPanel1.add(CargarJSON, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, -1, -1));
+        jPanel1.add(CargarJSON, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
         );
 
         pack();
@@ -104,10 +111,6 @@ public class Ventana1 extends javax.swing.JFrame {
                 return;
             }
 
-            // Mapa para registrar los nombres ya encontrados  
-            String[] names = new String[100];  
-            int nameCount = 0;
-
             // Procesa el JSON  
             try {
                 JSONParser parser = new JSONParser();
@@ -118,60 +121,83 @@ public class Ventana1 extends javax.swing.JFrame {
                         JSONObject personObject = (JSONObject) person;
                         String personName = (String) personObject.keySet().iterator().next();
                         JSONArray personDetails = (JSONArray) personObject.get(personName);
-                        String ofHisName = null;
+                        Persona nuevaPersona = new Persona(personName);
 
                         for (Object detail : personDetails) {
                             JSONObject detailObject = (JSONObject) detail;
                             if (detailObject.containsKey("Of his name")) {
-                                ofHisName = (String) detailObject.get("Of his name");
+                                nuevaPersona.setOfHisName((String) detailObject.get("Of his name"));
+                            } else if (detailObject.containsKey("Born to")) {
+                                String parent = (String) detailObject.get("Born to");
+                                if (nuevaPersona.padre == null) {
+                                    nuevaPersona.setPadre(parent);
+                                } else {
+                                    nuevaPersona.setMadre(parent);
+                                }
+                            } else if (detailObject.containsKey("Held title")) {
+                                nuevaPersona.setTitulo((String) detailObject.get("Held title"));
+                            } else if (detailObject.containsKey("Of eyes")) {
+                                nuevaPersona.setOfEyes((String) detailObject.get("Of eyes"));
+                            } else if (detailObject.containsKey("Of hair")) {
+                                nuevaPersona.setOfHair((String) detailObject.get("Of hair"));
+                            } else if (detailObject.containsKey("Father to")) {
+                                JSONArray childrenArray = (JSONArray) detailObject.get("Father to");
+                                for (Object child : childrenArray) {
+                                    nuevaPersona.addFatherTo((String) child);
+                                }
+                            } else if (detailObject.containsKey("Notes")) {
+                                nuevaPersona.setNotes((String) detailObject.get("Notes"));
+                            } else if (detailObject.containsKey("Fate")) {
+                                nuevaPersona.setFate((String) detailObject.get("Fate"));
                             }
                         }
 
-                        boolean isRepeated = false;
-
-                        // Comprobar si el nombre ya había sido leído, es decir, es un nombre repetido  
-                        for (int i = 0; i < nameCount; i++) {
-                            if (names[i].equals(personName)) {
-                                isRepeated = true;
-                                break;
-                            }
-                        }
-
-                        // Si es un nombre repetido, se modifica el nombre para que se muestre con su posición en la familia  
-                        if (isRepeated && ofHisName != null) {
-                            personName += " the " + ofHisName;
-                        } else {
-                            // Si es un nombre no repetido, se añade a la lista  
-                            names[nameCount++] = personName;
-                        }
-
-                        // Se Crea un diccionario para almacenar los detalles de la persona  
-                        StringBuilder detailsOutput = new StringBuilder(personName + " : { ");
-
-                        for (Object detail : personDetails) {
-                            JSONObject detailObject = (JSONObject) detail;
-                            String detailKey = (String) detailObject.keySet().iterator().next();
-                            Object detailValue = detailObject.get(detailKey);
-
-                            if (detailValue instanceof JSONArray) {
-                                detailsOutput.append(detailKey).append(" : ").append(detailValue.toString()).append(", ");
-                            } else {
-                                detailsOutput.append(detailKey).append(" : ")
-                                        .append(detailValue != null ? detailValue.toString() : null).append(", ");
-                            }
-                        }
-
-                        // Muestra por consola  
-                        detailsOutput = new StringBuilder(detailsOutput.substring(0, detailsOutput.length() - 2) + " }");
-                        System.out.println(detailsOutput);
+                        // Añade a la persona a la tabla de dispersión
+                        hashTable.put(nuevaPersona);
                     }
                 }
+
+                // Interacción para buscar persona
+                buscarPersonaEnTabla();
             } catch (ParseException e) {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Error al parsear el JSON.");
             }
         }
     }//GEN-LAST:event_CargarJSONActionPerformed
+
+    /**
+     * Método que permite buscar una persona en la tabla de dispersión.
+     */
+     private void buscarPersonaEnTabla() {
+        String input = JOptionPane.showInputDialog("Ingrese la persona que desea buscar \n (Nombre (Ej: William Baratheon) o nombre y su numeral (Ej: William Baratheon, Second of his name)):");
+        if (input != null && !input.trim().isEmpty()) {
+            String[] parts = input.split(", ");
+
+            // Verifica si se ingresó solo el nombre  
+            if (parts.length == 1) {
+                String nombre = parts[0].trim();
+                Persona personaEncontrada = hashTable.get(nombre, null); // Buscar solo por nombre  
+                if (personaEncontrada != null) {
+                    JOptionPane.showMessageDialog(null, personaEncontrada.toString(), "Información de la persona", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Persona no encontrada.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else if (parts.length == 2) {
+                // Busca por nombre y numeral en la familia
+                String nombreCompleto = parts[0].trim();
+                String ofHisName = parts[1].split(" ")[0].trim(); // Solo obtenemos el numeral
+                Persona personaEncontrada = hashTable.get(nombreCompleto, ofHisName);
+                if (personaEncontrada != null) {
+                    JOptionPane.showMessageDialog(null, personaEncontrada.toString(), "Información de la persona", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Persona no encontrada.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Formato inválido. Use el formato indicado", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
 
     /**
      * @param args the command line arguments
