@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Andrea
+ * @author Andrea Villasmil
  */
 
 
