@@ -76,8 +76,10 @@ public class NodoArbol {
      * @param hijo El nodo hijo a agregar.
      */
     public void agregarHijo(NodoArbol hijo) {
-        hijo.establecerPadre(this); // Establece este nodo como padre del hijo
-        this.hijos.agregarAlFinal(hijo); // Agrega el hijo a la lista de hijos
+        // Primero, establezco este nodo como padre del hijo
+        hijo.establecerPadre(this); 
+        // Luego, agrego el hijo a la lista de hijos
+        this.hijos.agregarAlFinal(hijo); 
     }
     
     /**
@@ -85,7 +87,11 @@ public class NodoArbol {
      * @return true si es hoja, false en caso contrario.
      */
     public boolean esHoja() {
-        return hijos.estaVacia(); // Retorna verdadero si no tiene hijos
+        // Verifico si la lista de hijos está vacía
+        if (hijos.estaVacia()) {
+            return true; // Si está vacía, retorno verdadero
+        } else {
+            return false; // Si no está vacía, retorno falso
+        }
     }
 }
-

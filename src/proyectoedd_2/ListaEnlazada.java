@@ -61,7 +61,7 @@ public class ListaEnlazada {
     // Método para insertar un nuevo dato al final de la lista
     
     public void agregarAlFinal(Object dato) {
-        NodoPrimitivo nuevoNodo = new NodoPrimitivo(dato); // Crea un nuevo nodo con el dato a insertar
+        NodoPrimitivo nuevoNodo = new NodoPrimitivo(dato); // Crea un nuevo nodo con el dato que se inserta
         
         if (this.estaVacia()) {
             this.establecerCabeza(nuevoNodo); // Si está vacía, establece cabeza como nuevo nodo
