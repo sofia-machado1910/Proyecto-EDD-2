@@ -27,31 +27,31 @@ public class Nivel {
      * Obtiene el nodo del árbol asociado a este nivel.
      * @return El nodo del árbol.
      */
-    public NodoArbol obtenerNodo() {
-        return nodoArbol; // Retorna el nodo del árbol
-    }
-
-    /**
-     * Establece un nuevo nodo para este nivel.
-     * @param nodoArbol El nuevo nodo del árbol a asignar.
-     */
-    public void establecerNodo(NodoArbol nodoArbol) {
-        this.nodoArbol = nodoArbol; // Asigna un nuevo nodo al nivel
+    public NodoArbol getNodoArbol() {
+        return nodoArbol;
     }
 
     /**
      * Obtiene la profundidad de este nivel.
      * @return La profundidad del nivel.
      */
-    public int obtenerProfundidad() {
-        return profundidad; // Retorna la profundidad del nivel
+    public int getProfundidad() {
+        return profundidad;
+    }
+
+    /**
+     * Establece un nuevo nodo para este nivel.
+     * @param nodoArbol El nuevo nodo del árbol a asignar.
+     */
+    public void setNodoArbol(NodoArbol nodoArbol) {
+        this.nodoArbol = nodoArbol;
     }
 
     /**
      * Establece una nueva profundidad para este nivel.
      * @param profundidad La nueva profundidad a asignar.
      */
-    public void establecerProfundidad(int profundidad) {
-        this.profundidad = profundidad; // Asigna una nueva profundidad al nivel
+    public void setProfundidad(int profundidad) {
+        this.profundidad = profundidad;
     }
 }

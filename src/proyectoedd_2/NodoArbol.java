@@ -10,8 +10,8 @@ package proyectoedd_2;
  */
 public class NodoArbol {
     private Object valor; // Almacena el valor del nodo
-    private NodoArbol padre; // Referencia al nodo padre
-    private ListaEnlazada hijos; // Lista que contiene los nodos hijos
+    private NodoArbol nodoPadre; // Referencia al nodo padre
+    private ListaEnlazada nodosHijos; // Lista que contiene los nodos hijos
 
     /**
      * Constructor que inicializa un nodo con un valor específico.
@@ -19,67 +19,71 @@ public class NodoArbol {
      */
     public NodoArbol(Object valor) {
         this.valor = valor; // Asigna el valor proporcionado al nodo
-        this.padre = null; // Inicializa el padre como nulo
-        this.hijos = new ListaEnlazada(); // Crea una nueva lista para los hijos
+        this.nodoPadre = null; // Inicializa el padre como nulo
+        this.nodosHijos = new ListaEnlazada(); // Crea una nueva lista para los hijos
     }
-
+    
     /**
      * Obtiene el valor almacenado en el nodo.
      * @return El valor del nodo.
      */
-    public Object obtenerValor() {
+    public Object getValor() {
         return valor; // Retorna el valor del nodo
-    }
-
-    /**
-     * Establece un nuevo valor para el nodo.
-     * @param valor El nuevo valor a asignar.
-     */
-    public void establecerValor(Object valor) {
-        this.valor = valor; // Asigna el nuevo valor al nodo
     }
 
     /**
      * Obtiene la referencia al nodo padre.
      * @return El nodo padre.
      */
-    public NodoArbol obtenerPadre() {
-        return padre; // Retorna el nodo padre
+    public NodoArbol getNodoPadre() {
+        return nodoPadre;
     }
-
-    /**
-     * Establece un nuevo nodo padre para este nodo.
-     * @param padre El nuevo nodo padre a asignar.
-     */
-    public void establecerPadre(NodoArbol padre) {
-        this.padre = padre; // Asigna el nuevo padre al nodo
-    }
-
+    
     /**
      * Obtiene la lista de nodos hijos de este nodo.
      * @return La lista de nodos hijos.
      */
-    public ListaEnlazada obtenerHijos() {
-        return hijos; // Retorna la lista de hijos
+    public ListaEnlazada getNodosHijos() {
+        return nodosHijos; // Retorna la lista de hijos
+    }
+    
+    public Object obtenerValor() {
+        return valor; 
+    }
+    
+    /**
+     * Establece un nuevo valor para el nodo.
+     * @param valor El nuevo valor a asignar.
+     */
+    public void setValor(Object valor) {
+        this.valor = valor;
+    }
+    
+    /**
+     * Establece un nuevo nodo padre para este nodo.
+     * @param nodoPadre El nuevo nodo padre a asignar.
+     */
+    public void setNodoPadre(NodoArbol nodoPadre) {
+        this.nodoPadre = nodoPadre;// Asigna el nuevo padre al nodo
     }
 
     /**
      * Establece una nueva lista de nodos hijos para este nodo.
-     * @param hijos La nueva lista de nodos hijos a asignar.
+     * @param nodosHijos La nueva lista de nodos hijos a asignar.
      */
-    public void establecerHijos(ListaEnlazada hijos) {
-        this.hijos = hijos; // Asigna la nueva lista de hijos
+    public void setNodosHijos(ListaEnlazada nodosHijos) {
+        this.nodosHijos = nodosHijos;
     }
-    
+
     /**
      * Agrega un hijo a este nodo, estableciendo este nodo como su padre.
      * @param hijo El nodo hijo a agregar.
      */
     public void agregarHijo(NodoArbol hijo) {
         // Primero, establezco este nodo como padre del hijo
-        hijo.establecerPadre(this); 
+        hijo.setNodoPadre(this); 
         // Luego, agrego el hijo a la lista de hijos
-        this.hijos.agregarAlFinal(hijo); 
+        this.nodosHijos.agregarAlFinal(hijo); 
     }
     
     /**
@@ -88,7 +92,7 @@ public class NodoArbol {
      */
     public boolean esHoja() {
         // Verifico si la lista de hijos está vacía
-        if (hijos.estaVacia()) {
+        if (nodosHijos.estaVacia()) {
             return true; // Si está vacía, retorno verdadero
         } else {
             return false; // Si no está vacía, retorno falso

@@ -4,12 +4,14 @@
  */
 package proyectoedd_2;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Andrea Villasmil
  */
 /**
- * Clase ArbolGnral que representa un árbol general.
+ * Clase ArbolBase que representa un árbol general.
  * Permite crear, modificar y buscar nodos en el árbol.
  */
 public class ArbolBase {
@@ -17,7 +19,7 @@ public class ArbolBase {
     private NodoArbol raiz; // Nodo raíz del árbol
 
     /**
-     * Constructor de la clase ArbolGnral.
+     * Constructor de la clase ArbolBase.
      * Inicializa el árbol con la raíz como nula.
      */
     public ArbolBase() {
@@ -29,7 +31,7 @@ public class ArbolBase {
      * @return Nodo raíz del árbol.
      */
     public NodoArbol getRaiz() {
-        return raiz; // Retorna la raíz
+        return raiz;
     }
 
     /**
@@ -37,15 +39,7 @@ public class ArbolBase {
      * @param raiz Nodo que se establecerá como raíz.
      */
     public void setRaiz(NodoArbol raiz) {
-        this.raiz = raiz; // Cambia la raíz del árbol
-    }
-
-    /**
-     * Verifica si el árbol está vacío.
-     * @return true si el árbol no tiene nodos, false en caso contrario.
-     */
-    public boolean isEmpty() {
-        return this.raiz == null; // Retorna verdadero si la raíz es nula
+        this.raiz = raiz;
     }
 
     /**
@@ -59,6 +53,14 @@ public class ArbolBase {
     }
 
     /**
+     * Verifica si el árbol está vacío.
+     * @return true si el árbol no tiene nodos, false en caso contrario.
+     */
+    public boolean isEmpty() {
+        return this.raiz == null;
+    }
+    
+    /**
      * Agrega un hijo a un nodo padre existente en el árbol.
      * @param padre Nodo al que se le agregará el hijo.
      * @param dato Dato que contendrá el nuevo hijo.
@@ -67,7 +69,7 @@ public class ArbolBase {
     public NodoArbol agregarHijo(NodoArbol padre, Object dato) {
         NodoArbol hijo = new NodoArbol(dato); // Crea un nuevo hijo
         padre.agregarHijo(hijo); // Agrega el hijo al padre
-        return hijo; // Retorna el nuevo hijo
+        return hijo;
     }
 
     /**
@@ -75,31 +77,30 @@ public class ArbolBase {
      * @param nombre Nombre de la persona a buscar.
      * @return Nodo encontrado o null si no se encuentra.
      */
-    public NodoArbol buscarPorNombre(String nombre) {
+    public NodoArbol buscarConNombre(String nombre) {
         if (this.isEmpty()) { // Verifica si el árbol está vacío
-            return null; // Retorna nulo si está vacío
+            return null;
         }
 
-        Cola cola = new Cola(); // Crea una cola para la búsqueda
-        cola.encolar(raiz); // Encola la raíz
+        Cola cola = new Cola(); // Crea una cola para el recorrido
+        cola.encolar(raiz); // Encola la raíz del árbol
 
         while (!cola.estaVacia()) { // Mientras haya nodos en la cola
             NodoArbol nodoActual = (NodoArbol) cola.desencolar(); // Desencola un nodo
-            Persona persona = (Persona) nodoActual.getDato(); // Obtiene la persona del nodo
+            Persona persona = (Persona) nodoActual.getValor(); // Obtiene la persona del nodo
 
-            if (persona.getNombreCompleto().equalsIgnoreCase(nombre)) { // Compara nombres
+            if (persona.getFullName().equalsIgnoreCase(nombre)) { // Compara nombres
                 return nodoActual; // Retorna el nodo si se encuentra
             }
 
-            NodoPrimitivo hijoNodo = nodoActual.getHijos().getpFirst(); // Obtiene los hijos del nodo actual
+            NodoPrimitivo hijoNodo = nodoActual.getNodosHijos().getCabeza(); // Obtiene los hijos del nodo actual
             while (hijoNodo != null) { // Mientras haya hijos
-                NodoArbol hijo = (NodoArbol) hijoNodo.getDato(); // Obtiene cada hijo
+                NodoArbol hijo = (NodoArbol) hijoNodo.getValorPrimitivo(); // Obtiene cada hijo
                 cola.encolar(hijo); // Encola cada hijo para seguir buscando
-                hijoNodo = hijoNodo.getpNext(); // Avanza al siguiente hijo
+                hijoNodo = hijoNodo.getSiguiente(); // Avanza al siguiente hijo
             }
         }
-
-        return null; // Retorna nulo si no se encuentra la persona
+        return null; 
     }
 
     /**
@@ -107,105 +108,74 @@ public class ArbolBase {
      * @param nombre Nombre o mote de la persona a buscar.
      * @return Nodo encontrado o null si no se encuentra.
      */
-    public NodoArbol buscarPorNombreClave(String nombre) {
-        if (this.isEmpty()) { // Verifica si el árbol está vacío
-            return null; // Retorna nulo si está vacío
+    public NodoArbol buscarConNombreDistintivo(String nombre) {
+        if (this.isEmpty()) {
+            return null;
         }
 
-        Cola cola = new Cola(); // Crea una cola para la búsqueda
-        cola.encolar(raiz); // Encola la raíz
+        Cola cola = new Cola();
+        cola.encolar(raiz);
 
-        while (!cola.estaVacia()) { // Mientras haya nodos en la cola
+        while (!cola.estaVacia()) {
             NodoArbol nodoActual = (NodoArbol) cola.desencolar(); // Desencola un nodo
-            Persona persona = (Persona) nodoActual.getDato(); // Obtiene la persona del nodo
+            Persona persona = (Persona) nodoActual.getValor(); // Obtiene la persona del nodo
 
-            if (persona.getMote() != null) { 
-                if (persona.getMote().equalsIgnoreCase(nombre)) { 
-                    return nodoActual; 
+            // Verifica si el nombre conocido coincide con el nombre buscado
+            if (persona.getKnownAs() != null) {
+                if (persona.getKnownAs().equalsIgnoreCase(nombre)) {
+                    return nodoActual; // Retorna el nodo si se encuentra
                 } else {
-                    String nombreComparar = persona.getNombreCompleto() + " " + persona.getNumeral(); 
+                    String nombreRelacionado = persona.getFullName() + " the " + persona.getOfHisName();
 
-                    if (nombreComparar.equalsIgnoreCase(nombre)) { 
-                        return nodoActual; 
+                    if (nombreRelacionado.equalsIgnoreCase(nombre)) {
+                        return nodoActual; // Retorna el nodo si se encuentra
                     }
                 }
             } else {
-                String nombreComparar = persona.getNombreCompleto() + " " + persona.getNumeral();
+                String nombreRelacionado = persona.getFullName() + " the " + persona.getOfHisName();
 
-                if (nombreComparar.equalsIgnoreCase(nombre)) { 
-                    return nodoActual;
-                }
-            }
-            
-            NodoPrimitivo hijoNodo = nodoActual.getHijos().getpFirst();
-            while (hijoNodo != null) { 
-                NodoArbol hijo = (NodoArbol) hijoNodo.getDato();
-                cola.encolar(hijo); 
-                hijoNodo = hijoNodo.getpNext(); 
-            }
-        }
-
-        return null; 
-    }
-
-    /**
-     * Muestra todos los nodos del árbol por nivel en la consola.
-     */
-    public void mostrarPorNivel() {
-        if (this.isEmpty()) { 
-            JOptionPane.showMessageDialog(null, "El árbol está vacío."); 
-        } else {
-            String arbolStr = "Árbol:\n"; 
-            Cola cola = new Cola(); 
-            cola.encolar(raiz); 
-
-            while (!cola.isEmpty()) { 
-                NodoArbol nodoActual = (NodoArbol) cola.desencolar(); 
-                Persona persona = (Persona) nodoActual.getDato();
-
-                arbolStr += persona + "\n\n"; 
-
-                Nodo hijoNodo = nodoActual.getHijos().getpFirst();
-                while (hijoNodo != null) { 
-                    NodoArbol hijo = (NodoArbol) hijoNodo.getDato();
-                    cola.encolar(hijo); 
-                    hijoNodo = hijoNodo.getpNext(); 
+                if (nombreRelacionado.equalsIgnoreCase(nombre)) {
+                    return nodoActual; // Retorna el nodo si se encuentra
                 }
             }
 
-            System.out.println(arbolStr); 
-
+            NodoPrimitivo hijoNodo = nodoActual.getNodosHijos().getCabeza(); // Obtiene los hijos del nodo actual
+            while (hijoNodo != null) { // Mientras haya hijos
+                NodoArbol hijo = (NodoArbol) hijoNodo.getValorPrimitivo(); // Obtiene cada hijo
+                cola.encolar(hijo); // Encola cada hijo para seguir buscando
+                hijoNodo = hijoNodo.getSiguiente(); // Avanza al siguiente hijo
+            }
         }
+        return null;
     }
 
     /**
      * Calcula el nivel máximo del árbol.
      * @return El nivel máximo del árbol, o 0 si está vacío.
      */
-    public int maximoNivel() {
+    public int mayorNivel() {
         if (this.isEmpty()) { 
-            return 0; 
+            return 0; // Retorna 0 si el árbol está vacío
         }
 
-        int maxNivel = 0; 
+        int nivelMayor = 0; // Inicializa el nivel máximo
 
-        Cola cola = new Cola(); 
-        cola.encolar(new Nivel(raiz, 1)); 
+        Cola cola = new Cola(); // Crea una cola para el recorrido
+        cola.encolar(new Nivel(raiz, 1)); // Encola la raíz con nivel 1
 
-        while (!cola.estaVacia()) { 
-            Nivel nodoActual = (Nivel) cola.desencolar();
+        while (!cola.estaVacia()) { // Mientras haya nodos en la cola
+            Nivel nodoActual = (Nivel) cola.desencolar(); // Desencola un nodo
 
-            maxNivel = Math.max(maxNivel, nodoActual.getNivel()); 
+            nivelMayor = Math.max(nivelMayor, nodoActual.getProfundidad()); // Actualiza el nivel máximo
 
-            NodoPrimitivo hijoNodo = nodoActual.getNodo().getHijos().getpFirst();
-            while (hijoNodo != null) { 
-                NodoArbol hijo = (NodoArbol) hijoNodo.getDato();
-                cola.encolar(new Nivel(hijo, nodoActual.getNivel() + 1)); 
-                hijoNodo = hijoNodo.getpNext(); 
+            NodoPrimitivo hijoNodo = nodoActual.getNodoArbol().getNodosHijos().getCabeza(); // Obtiene los hijos del nodo actual
+            while (hijoNodo != null) {
+                NodoArbol hijo = (NodoArbol) hijoNodo.getValorPrimitivo(); // Obtiene cada hijo
+                cola.encolar(new Nivel(hijo, nodoActual.getProfundidad() + 1)); // Encola el hijo con el nivel incrementado
+                hijoNodo = hijoNodo.getSiguiente(); // Avanza al siguiente hijo
             }
         }
-
-        return maxNivel; 
+        return nivelMayor; // Retorna el nivel máximo encontrado
     }
 
     /**
@@ -213,31 +183,58 @@ public class ArbolBase {
      * @param nivelBuscado Nivel que se desea obtener.
      * @return Lista de nodos en el nivel buscado.
      */
-    public ListaEnlazada obtenerNodosEnNivel(int nivelBuscado) {
-        ListaEnlazada nodosEnNivel = new ListaEnlazada();
+    public ListaEnlazada obtenerNodosDeNivel(int nivelBuscado) {
+        ListaEnlazada nodosEnNivel = new ListaEnlazada(); // Inicializa la lista para nodos en el nivel buscado
 
         if (this.isEmpty()) { 
-            return nodosEnNivel; 
+            return nodosEnNivel; // Retorna la lista vacía si el árbol está vacío
         }
 
         Cola cola = new Cola();
-        cola.encolar(new Nivel(raiz, 1)); 
+        cola.encolar(new Nivel(raiz, 1));
 
-        while (!cola.estaVacia()) { 
-            Nivel nodoActual = (Nivel) cola.desencolar();
+        while (!cola.estaVacia()) {
+            Nivel nodoActual = (Nivel) cola.desencolar(); // Mientras haya nodos en la cola, desencola un nodo
 
-            if (nodoActual.getNivel() == nivelBuscado) { 
-                nodosEnNivel.insertarFinal(nodoActual.getNodo().getDato()); 
+            if (nodoActual.getProfundidad() == nivelBuscado) { 
+                nodosEnNivel.agregarAlFinal(nodoActual.getNodoArbol().getValor()); // Agrega el nodo a la lista si está en el nivel buscado
             }
 
-            NodoPrimitivo hijoNodo = nodoActual.getNodo().getHijos().getpFirst();
-            while (hijoNodo != null) { 
-                NodoArbol hijo = (NodoArbol) hijoNodo.getDato();
-                cola.encolar(new Nivel(hijo, nodoActual.getNivel() + 1)); 
-                hijoNodo = hijoNodo.getpNext(); 
+            NodoPrimitivo hijoNodo = nodoActual.getNodoArbol().getNodosHijos().getCabeza(); // Obtiene los hijos del nodo actual
+            while (hijoNodo != null) {
+                NodoArbol hijo = (NodoArbol) hijoNodo.getValorPrimitivo(); // Obtiene cada hijo
+                cola.encolar(new Nivel(hijo, nodoActual.getProfundidad() + 1)); // Encola el hijo con el nivel incrementado
+                hijoNodo = hijoNodo.getSiguiente(); // Avanza al siguiente hijo
             }
         }
+        return nodosEnNivel;
+    }
+    
+    /**
+     * Muestra todos los nodos del árbol por nivel en la consola.
+     */
+    public void mostrarNiveles() {
+        if (this.isEmpty()) { 
+            JOptionPane.showMessageDialog(null, "El árbol está vacío.");
+        } else {
+            String arbolString = "Árbol genealógico:\n";
+            Cola cola = new Cola();
+            cola.encolar(raiz);
 
-        return nodosEnNivel; 
+            while (!cola.estaVacia()) {
+                NodoArbol nodoActual = (NodoArbol) cola.desencolar();
+                Persona persona = (Persona) nodoActual.getValor(); // Obtiene la persona del nodo
+
+                arbolString += persona + "\n\n"; // Agrega la persona a la cadena
+
+                NodoPrimitivo hijoNodo = nodoActual.getNodosHijos().getCabeza(); // Obtiene los hijos del nodo actual
+                while (hijoNodo != null) {
+                    NodoArbol hijo = (NodoArbol) hijoNodo.getValorPrimitivo(); // Obtiene cada hijo
+                    cola.encolar(hijo); // Encola cada hijo para seguir mostrando
+                    hijoNodo = hijoNodo.getSiguiente(); // Avanza al siguiente hijo
+                }
+            }
+            System.out.println(arbolString); // Imprime el árbol por consola
+        }
     }
 }

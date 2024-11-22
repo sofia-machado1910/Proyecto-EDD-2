@@ -129,22 +129,17 @@ public class Ventana1 extends javax.swing.JFrame {
                                 nuevaPersona.setOfHisName((String) detailObject.get("Of his name"));
                             } else if (detailObject.containsKey("Born to")) {
                                 String parent = (String) detailObject.get("Born to");
-                                if (nuevaPersona.padre == null) {
-                                    nuevaPersona.setPadre(parent);
+                                if (nuevaPersona.father == null) {
+                                    nuevaPersona.setFather(parent);
                                 } else {
-                                    nuevaPersona.setMadre(parent);
+                                    nuevaPersona.setMother(parent);
                                 }
                             } else if (detailObject.containsKey("Held title")) {
-                                nuevaPersona.setTitulo((String) detailObject.get("Held title"));
+                                nuevaPersona.setTitle((String) detailObject.get("Held title"));
                             } else if (detailObject.containsKey("Of eyes")) {
                                 nuevaPersona.setOfEyes((String) detailObject.get("Of eyes"));
                             } else if (detailObject.containsKey("Of hair")) {
                                 nuevaPersona.setOfHair((String) detailObject.get("Of hair"));
-                            } else if (detailObject.containsKey("Father to")) {
-                                JSONArray childrenArray = (JSONArray) detailObject.get("Father to");
-                                for (Object child : childrenArray) {
-                                    nuevaPersona.addFatherTo((String) child);
-                                }
                             } else if (detailObject.containsKey("Notes")) {
                                 nuevaPersona.setNotes((String) detailObject.get("Notes"));
                             } else if (detailObject.containsKey("Fate")) {

@@ -7,90 +7,181 @@ package proyectoedd_2;
 import javax.swing.JOptionPane;
 
 /**
- * Clase que implementa una tabla de dispersión para almacenar objetos Persona.
+ * Clase que implementa una tabla de dispersión (HashTable).
  * 
  * @author Sofia Machado
  */
 public class hashTable {
-
-    private Persona[][] tabla; // Array bidimensional para almacenar las personas
-    private int size;
+    private ListaEnlazada[] tabla; // Arreglo de listas enlazadas para almacenar los elementos
+    private int size; // Tamaño de la tabla
 
     /**
-     * Constructor que inicializa la tabla de dispersión con una capacidad dada.
+     * Constructor que inicializa la tabla de dispersión con un tamaño específico.
      * 
-     * @param capacity Capacidad inicial de la tabla
+     * @param size Tamaño de la tabla
      */
-    public hashTable(int capacity) {
-        tabla = new Persona[capacity][10];  
-        size = 0;
+    public hashTable(int size) {
+        this.size = size;
+        this.tabla = new ListaEnlazada[size];
+        this.iniciar(); // Inicializa las listas enlazadas en cada índice
+    }
+    
+    public ListaEnlazada[] getTabla() {
+        return tabla;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setTabla(ListaEnlazada[] tabla) {
+        this.tabla = tabla;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 
     /**
-     * Método hash que calcula el índice para una clave dada.
+     * Función hash que calcula el índice en la tabla basado en la clave.
      * 
      * @param key Clave para calcular el índice
      * @return Índice calculado
      */
-    private int hash(String key) {
-        return (key.hashCode() % tabla.length + tabla.length) % tabla.length;
+    private int hash(Object key) {
+        return Math.abs(key.hashCode()) % size;
     }
 
     /**
-     * Agrega una persona a la tabla de dispersión.
-     * 
-     * @param persona Persona a agregar
+     * Inicializa cada índice de la tabla de dispersión con una nueva lista enlazada.
      */
-    public void put(Persona persona) {
-        int index = hash(persona.nombreCompleto);
-        for (int i = 0; i < tabla[index].length; i++) {
-            if (tabla[index][i] == null) { // Encuentra el primer lugar vacío  
-                tabla[index][i] = persona;
-                size++;
-                return;
-            }
+    private void iniciar() {
+        for (int i = 0; i < this.size; i++) {
+            tabla[i] = new ListaEnlazada();
         }
-        // Si no hay espacio, se muestra un mensaje de error 
-        JOptionPane.showMessageDialog(null, "No se puede agregar más personas con el mismo nombre.");
     }
 
     /**
-     * Obtiene una persona de la tabla de dispersión según el nombre completo y el numeral.
+     * Agrega un nuevo dato a la tabla utilizando la clave dada.
      * 
-     * @param nombreCompleto Nombre completo de la persona
-     * @param ofHisName Numeral de la persona en la familia
-     * @return Persona encontrada o null si no se encuentra
+     * @param key Clave para el dato
+     * @param dato Dato a agregar
      */
-    public Persona get(String nombreCompleto, String ofHisName) {
-        int index = hash(nombreCompleto);
-        for (int i = 0; i < tabla[index].length; i++) {
-            if (tabla[index][i] != null && tabla[index][i].nombreCompleto.equals(nombreCompleto)) {
-                // Si ofHisName es null, retorna la primera coincidencia  
-                if (ofHisName == null || (tabla[index][i].ofHisName != null && tabla[index][i].ofHisName.equals(ofHisName))) {
-                    return tabla[index][i];
+    public void put(Object key, Object dato) {
+        int index = hash(key);
+        ListaEnlazada listaEnIndex = tabla[index];
+
+        if (!listaEnIndex.buscar(dato)) {
+            listaEnIndex.agregarAlFinal(dato);
+        }
+    }
+    
+    /**
+     * Busca un objeto Persona en la tabla utilizando su clave.
+     * 
+     * @param key Clave del objeto
+     * @return Objeto Persona encontrado o null si no se encuentra
+     */
+    public Object buscarEnTabla(String key) {
+        int indice = hash(key);
+        ListaEnlazada listaEnIndex = tabla[indice];
+
+        if (!listaEnIndex.estaVacia()) {
+            NodoPrimitivo aux = listaEnIndex.getCabeza();
+            while (aux != null) {
+                Persona personaActual = (Persona) aux.getValorPrimitivo();
+                if (personaActual.distinctiveName().equalsIgnoreCase(key)) {
+                    return personaActual;
+                }
+                aux = aux.getSiguiente();
+            }
+            return null;
+        }
+        return null;
+    }
+
+    /**
+     * Busca objetos Persona por su respectivo título nobiliario.
+     * 
+     * @param titulo Título
+     * @return Lista de objetos Persona que coinciden con el título
+     */
+    public ListaEnlazada buscarPorTitulo(String titulo) {
+        ListaEnlazada personasFiltradas = new ListaEnlazada();
+        for (int i = 0; i < this.size; i++) {
+            if (!tabla[i].estaVacia()) {
+                NodoPrimitivo aux = tabla[i].getCabeza();
+                while (aux != null) {
+                    Persona personaAct = (Persona) aux.getValorPrimitivo();
+                    if (personaAct.getTitle() != null) {
+                        if (personaAct.getTitle().contains(titulo)) {
+                            personasFiltradas.agregarAlFinal(personaAct);
+                        }
+                    }
+                    aux = aux.getSiguiente();
                 }
             }
         }
-        return null; // Retorna null si no se encuentra la persona
+        return personasFiltradas;
     }
 
     /**
-     * Verifica si la tabla contiene una persona con el nombre completo y el numeral dados.
+     * Busca objetos Persona por su nombre completo, o en su defecto, su nombre con su numeral en la familia.
      * 
-     * @param nombreCompleto Nombre completo de la persona
-     * @param ofHisName Numeral de la persona
-     * @return true si la persona está en la tabla, false si no
+     * @param nombre Nombre 
+     * @return Lista de objetos Persona que coinciden con el nombre
      */
-    public boolean contains(String nombreCompleto, String ofHisName) {
-        return get(nombreCompleto, ofHisName) != null;
+    public ListaEnlazada buscarPorNombre(String nombre) {
+        ListaEnlazada resultado = new ListaEnlazada();
+        for (int i = 0; i < this.size; i++) {
+            if (!tabla[i].estaVacia()) {
+                NodoPrimitivo aux = tabla[i].getCabeza();
+                while (aux != null) {
+                    Persona personaAct = (Persona) aux.getValorPrimitivo();
+                    if (personaAct.getKnownAs() != null) {
+                        if (personaAct.getKnownAs().contains(nombre)) {
+                            resultado.agregarAlFinal(personaAct);
+                        } else if (personaAct.getFullName().contains(nombre)) {
+                            String nombreConNumeral = personaAct.getFullName() + " the " + personaAct.getOfHisName();
+                            resultado.agregarAlFinal(personaAct);
+                        }
+                    } else {
+                        if (personaAct.getFullName().contains(nombre)) {
+                            String nombreConNumeral = personaAct.getFullName() + " the " + personaAct.getOfHisName();
+                            resultado.agregarAlFinal(personaAct);
+                        }
+                    }
+                    aux = aux.getSiguiente();
+                }
+            }
+        }
+        return resultado;
     }
-
+    
     /**
-     * Devuelve el tamaño actual de la tabla de dispersión.
-     * 
-     * @return Tamaño de la tabla
+     * Muestra el contenido de la tabla de dispersión.
      */
-    public int getSize() {
-        return size;
+    public void mostrarTabla() {
+        for (int i = 0; i < size; i++) {
+            if (!tabla[i].estaVacia()) {
+                System.out.println("\nIndice " + i + ":");
+                NodoPrimitivo aux = tabla[i].getCabeza();
+                while (aux != null) {
+                    Persona personaAct = (Persona) aux.getValorPrimitivo();
+                    System.out.print(personaAct.distinctiveName() + "->");
+                    aux = aux.getSiguiente();
+                }
+                System.out.println("null");
+            }
+        }
+    }
+    
+    /**
+     * Reinicia la tabla de dispersión, eliminando todos los elementos contenidos en ella.
+     */
+    public void deshacerLista() {
+        for (int i = 0; i < this.size; i++) {
+            tabla[i] = new ListaEnlazada();
+        }
     }
 }

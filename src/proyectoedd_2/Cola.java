@@ -21,71 +21,59 @@ public class Cola {
     private NodoPrimitivo inicio; // Atributo que apunta al primer nodo de la cola
     private int tamaño; // Atributo que almacena el tamaño de la cola
 
-    
     // Constructor que inicializa la cola vacía
-    
     public Cola() {
         this.fin = this.inicio = null; // Inicializa fin e inicio como nulos
         this.tamaño = 0; // Inicializa tamaño como 0
     }
 
-    
     // Método para obtener el último nodo de la cola
-    
-    public NodoPrimitivo obtenerFin() {
-        return fin; // Retorna el último nodo
-    }
-
-    // Método para establecer el último nodo de la cola
-    
-    public void establecerFin(NodoPrimitivo fin) {
-        this.fin = fin; // Asigna un nuevo último nodo
+    public NodoPrimitivo getFin() {
+        return fin;
     }
 
     // Método para obtener el primer nodo de la cola
-    
-    public NodoPrimitivo obtenerInicio() {
-        return inicio; // Retorna el primer nodo
-    }
-
-    // Método para establecer el primer nodo de la cola
-    
-    public void establecerInicio(NodoPrimitivo inicio) {
-        this.inicio = inicio; // Asigna un nuevo primer nodo
+    public NodoPrimitivo getInicio() {
+        return inicio;
     }
 
     // Método para obtener el tamaño de la cola
-    
-    public int obtenerTamaño() {
-        return tamaño; // Retorna el tamaño actual de la cola
+    public int getTamaño() {
+        return tamaño;
+    }
+
+    // Método para establecer el último nodo de la cola
+    public void setFin(NodoPrimitivo fin) {
+        this.fin = fin;
+    }
+
+    // Método para establecer el primer nodo de la cola
+    public void setInicio(NodoPrimitivo inicio) {
+        this.inicio = inicio;
     }
 
     // Método para establecer el tamaño de la cola
-    
-    public void establecerTamaño(int tamaño) {
-        this.tamaño = tamaño; // Asigna un nuevo tamaño a la cola
+    public void setTamaño(int tamaño) {
+        this.tamaño = tamaño;
     }
 
     // Método para verificar si la cola está vacía
-    
-    public boolean estaVacia() {
+        public boolean estaVacia() {
         return this.inicio == null; // Retorna verdadero si inicio es nulo
     }
 
     // Método para encolar un nuevo dato al final de la cola
-    
     public void encolar(Object dato) {
         NodoPrimitivo nuevoNodo = new NodoPrimitivo(dato); // Crea un nuevo nodo con el dato a insertar
         
         if (this.estaVacia()) { 
-            this.establecerInicio(nuevoNodo); // Si está vacía, establece inicio como nuevo nodo
-            this.establecerFin(nuevoNodo); // También establece fin como nuevo nodo
+            this.setInicio(nuevoNodo); // Si está vacía, establece inicio como nuevo nodo
+            this.setFin(nuevoNodo); // También establece fin como nuevo nodo
         } else {
-            this.fin.establecerSiguiente(nuevoNodo); // Enlaza el nuevo nodo al final de la cola
-            this.establecerFin(nuevoNodo); // Actualiza fin al nuevo nodo
+            this.fin.setSiguiente(nuevoNodo); // Enlaza el nuevo nodo al final de la cola
+            this.setFin(nuevoNodo); // Actualiza fin al nuevo nodo
         }
-        
-        establecerTamaño(obtenerTamaño() + 1); // Incrementa el tamaño de la cola
+        setTamaño(getTamaño() + 1); // Incrementa el tamaño de la cola
     }
 
     // Método para desencolar (quitar) el primer elemento de la cola
@@ -93,24 +81,21 @@ public class Cola {
         // Primero, revisa si la cola no está vacía
         if (this.estaVacia() == false) { 
             // Obtiene el valor del primer nodo
-            Object datoEliminar = this.inicio.obtenerValor(); 
+            Object datoEliminar = this.inicio.getValorPrimitivo(); 
 
             // Mueve el inicio al siguiente nodo
-            this.inicio = this.inicio.obtenerSiguiente(); 
+            this.inicio = this.inicio.getSiguiente(); 
 
             // Si el nuevo inicio es nulo, eso significa que la cola está vacía ahora
             if (this.inicio == null) { 
-                this.fin = null; // Entonces también pongo fin como nulo
+                this.fin = null; 
             }
 
             // Disminuyo el tamaño de la cola en uno
             this.tamaño = this.tamaño - 1; 
 
-            // Retorno el dato que eliminé
             return datoEliminar; 
         }
-
-        // Si la cola estaba vacía, retorno nulo
         return null; 
     }
 
@@ -126,15 +111,15 @@ public class Cola {
             // Mientras temp no sea nulo, sigo recorriendo
             while (temp != null) {
                 // Agrego el valor del nodo actual a la cadena
-                listaString += temp.obtenerValor() + "\n"; 
+                listaString += temp.getValorPrimitivo() + "\n"; 
                 // Muevo temp al siguiente nodo
-                temp = temp.obtenerSiguiente(); 
+                temp = temp.getSiguiente(); 
             }
 
             // Muestro todos los elementos en un cuadro de diálogo
             JOptionPane.showMessageDialog(null, listaString); 
         } else {
-            // Si la cola está vacía, muestro un mensaje
             JOptionPane.showMessageDialog(null, "La cola está vacía."); 
         }
     }
+}
