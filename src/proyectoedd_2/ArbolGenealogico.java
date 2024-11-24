@@ -4,7 +4,7 @@
  */
 package proyectoedd_2;
 
-import static proyectoedd_2.Ventana1.arbolGenealogico;
+import static Interfaces.Json.arbolGenealogico;
 /**
  * Clase que representa el árbol genealógico.
  * Permite gestionar el árbol de las personas de la respectiva familia y realizar búsquedas de los mismos por se nombre o su título nobiliario.
