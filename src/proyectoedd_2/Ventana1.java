@@ -13,6 +13,12 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import proyectoedd_2.ArbolGenealogico;
+import proyectoedd_2.CargaDeArchivo;
+import proyectoedd_2.NodoPrimitivo;
+import proyectoedd_2.ListaEnlazada;
+import proyectoedd_2.hashTable;
+import proyectoedd_2.Persona;
 
 /**
  * Clase Ventana1 para crear una interfaz gráfica de usuario en la que se pueda cargar archivos JSON desde el dispositivo, 
@@ -23,6 +29,9 @@ import org.json.simple.parser.ParseException;
 
 public class Ventana1 extends javax.swing.JFrame {
     private hashTable hashTable; // Instancia de la tabla de dispersión
+    public static ArbolGenealogico arbolGenealogico; 
+    private FileChooser fileChooser = new FileChooser();
+    
     /**
      * Constructor de la clase Ventana1.
      * Este constructor lo que hace es inicializar los componentes de la ventana y a la vez centra la ventana en la pantalla.
@@ -45,154 +54,92 @@ public class Ventana1 extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         CargarJSON = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(255, 238, 219));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("Búsqueda de personas en JSON");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, -1, -1));
+        jLabel1.setFont(new java.awt.Font("Segoe UI Light", 1, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(102, 84, 67));
+        jLabel1.setText("Por favor, ingrese el JSON con la información de la familia a continuación:");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, 20));
 
-        CargarJSON.setText("Cargar");
+        CargarJSON.setBackground(new java.awt.Color(186, 59, 70));
+        CargarJSON.setFont(new java.awt.Font("Segoe UI Light", 1, 12)); // NOI18N
+        CargarJSON.setForeground(new java.awt.Color(255, 255, 255));
+        CargarJSON.setText("Cargar JSON");
         CargarJSON.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CargarJSONActionPerformed(evt);
             }
         });
-        jPanel1.add(CargarJSON, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, -1, -1));
+        jPanel1.add(CargarJSON, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, 110, 30));
+
+        jLabel2.setBackground(new java.awt.Color(170, 143, 102));
+        jLabel2.setFont(new java.awt.Font("ScriptC", 1, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(170, 143, 102));
+        jLabel2.setText("Árbol Genealógico");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI Light", 1, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(102, 84, 67));
+        jLabel3.setText("Bienvenido/a  al proyecto Árbol genealógico, programa que te ofrecerá");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI Light", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(102, 84, 67));
+        jLabel4.setText("una  visualización gráfica de cualquier familia, así como diversas maneras");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI Light", 1, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(102, 84, 67));
+        jLabel5.setText("de obtener información de ella y de sus integrantes.");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    
-    /**
-     * Este boton le permite al usuario seleccionar un archivo JSON de sus archivos y procesa su contenido.
-     */
-    private void CargarJSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarJSONActionPerformed
+class FileChooser {
+    public String seleccionarJSON(JFrame ventana){
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Archivos JSON", "json"));
         int returnValue = fileChooser.showOpenDialog(null);
 
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
+            return selectedFile.getAbsolutePath();
 
-            StringBuilder jsonContent = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    jsonContent.append(line);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String jsonString = jsonContent.toString();
-
-            /**
-            * Como se encontró un doble espacio en uno de los JSON proporcionados que estaba causando problemas con su lectura
-            * se implementó una manera de reemplazar múltiples espacios por un solo espacio y evitar errores
-            */
-            jsonString = jsonString.trim().replaceAll(" +", " ");
-
-            // Verifica si el JSON está vacío  
-            if (jsonString.trim().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "El JSON seleccionado está vacío.");
-                return;
-            }
-
-            // Procesa el JSON  
-            try {
-                JSONParser parser = new JSONParser();
-                JSONObject jsonObject = (JSONObject) parser.parse(jsonString);
-                for (Object houseName : jsonObject.keySet()) {
-                    JSONArray houseArray = (JSONArray) jsonObject.get(houseName);
-                    for (Object person : houseArray) {
-                        JSONObject personObject = (JSONObject) person;
-                        String personName = (String) personObject.keySet().iterator().next();
-                        JSONArray personDetails = (JSONArray) personObject.get(personName);
-                        Persona nuevaPersona = new Persona(personName);
-
-                        for (Object detail : personDetails) {
-                            JSONObject detailObject = (JSONObject) detail;
-                            if (detailObject.containsKey("Of his name")) {
-                                nuevaPersona.setOfHisName((String) detailObject.get("Of his name"));
-                            } else if (detailObject.containsKey("Born to")) {
-                                String parent = (String) detailObject.get("Born to");
-                                if (nuevaPersona.father == null) {
-                                    nuevaPersona.setFather(parent);
-                                } else {
-                                    nuevaPersona.setMother(parent);
-                                }
-                            } else if (detailObject.containsKey("Held title")) {
-                                nuevaPersona.setTitle((String) detailObject.get("Held title"));
-                            } else if (detailObject.containsKey("Of eyes")) {
-                                nuevaPersona.setOfEyes((String) detailObject.get("Of eyes"));
-                            } else if (detailObject.containsKey("Of hair")) {
-                                nuevaPersona.setOfHair((String) detailObject.get("Of hair"));
-                            } else if (detailObject.containsKey("Notes")) {
-                                nuevaPersona.setNotes((String) detailObject.get("Notes"));
-                            } else if (detailObject.containsKey("Fate")) {
-                                nuevaPersona.setFate((String) detailObject.get("Fate"));
-                            }
-                        }
-
-                        // Añade a la persona a la tabla de dispersión
-                        hashTable.put(nuevaPersona);
-                    }
-                }
-
-                // Interacción para buscar persona
-                buscarPersonaEnTabla();
-            } catch (ParseException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Error al parsear el JSON.");
-            }
-        }
-    }//GEN-LAST:event_CargarJSONActionPerformed
-
-    /**
-     * Método que permite buscar una persona en la tabla de dispersión.
-     */
-     private void buscarPersonaEnTabla() {
-        String input = JOptionPane.showInputDialog("Ingrese la persona que desea buscar \n (Nombre (Ej: William Baratheon) o nombre y su numeral (Ej: William Baratheon, Second of his name)):");
-        if (input != null && !input.trim().isEmpty()) {
-            String[] parts = input.split(", ");
-
-            // Verifica si se ingresó solo el nombre  
-            if (parts.length == 1) {
-                String nombre = parts[0].trim();
-                Persona personaEncontrada = hashTable.get(nombre, null); // Buscar solo por nombre  
-                if (personaEncontrada != null) {
-                    JOptionPane.showMessageDialog(null, personaEncontrada.toString(), "Información de la persona", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Persona no encontrada.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } else if (parts.length == 2) {
-                // Busca por nombre y numeral en la familia
-                String nombreCompleto = parts[0].trim();
-                String ofHisName = parts[1].split(" ")[0].trim(); // Solo obtenemos el numeral
-                Persona personaEncontrada = hashTable.get(nombreCompleto, ofHisName);
-                if (personaEncontrada != null) {
-                    JOptionPane.showMessageDialog(null, personaEncontrada.toString(), "Información de la persona", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Persona no encontrada.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Formato inválido. Use el formato indicado", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+        } else {
+            // Si el usuario no seleccionó ningún archivo, muestra un mensaje
+            JOptionPane.showMessageDialog(ventana, "No se ha seleccionado ningún archivo.");
+            return null;
         }
     }
+}
+  
+    private void CargarJSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarJSONActionPerformed
+        String rutaJSON = fileChooser.seleccionarJSON(this);
+        CargaDeArchivo cargar = new CargaDeArchivo();
+        cargar.cargarJSON(rutaJSON);
+        arbolGenealogico = cargar.getArbolGenealogico();
+    }//GEN-LAST:event_CargarJSONActionPerformed
+
 
     /**
      * @param args the command line arguments
@@ -232,6 +179,10 @@ public class Ventana1 extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CargarJSON;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

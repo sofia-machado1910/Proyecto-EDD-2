@@ -73,53 +73,54 @@ public class Cola {
             this.fin.setSiguiente(nuevoNodo); // Enlaza el nuevo nodo al final de la cola
             this.setFin(nuevoNodo); // Actualiza fin al nuevo nodo
         }
-        setTamaño(getTamaño() + 1); // Incrementa el tamaño de la cola
+        tamaño++; // Incrementa el tamaño de la cola
     }
 
     // Método para desencolar (quitar) el primer elemento de la cola
-    public Object desencolar() {
-        // Primero, revisa si la cola no está vacía
-        if (this.estaVacia() == false) { 
-            // Obtiene el valor del primer nodo
-            Object datoEliminar = this.inicio.getValorPrimitivo(); 
-
-            // Mueve el inicio al siguiente nodo
-            this.inicio = this.inicio.getSiguiente(); 
-
-            // Si el nuevo inicio es nulo, eso significa que la cola está vacía ahora
-            if (this.inicio == null) { 
-                this.fin = null; 
-            }
-
-            // Disminuyo el tamaño de la cola en uno
-            this.tamaño = this.tamaño - 1; 
-
-            return datoEliminar; 
+//    public Object desencolar() {
+//        // Primero, revisa si la cola no está vacía
+//        if (this.estaVacia() == false) { 
+//            // Obtiene el valor del primer nodo
+//            Object datoEliminar = this.inicio.getValorPrimitivo(); 
+//
+//            // Mueve el inicio al siguiente nodo
+//            this.inicio = this.inicio.getSiguiente(); 
+//
+//            // Si el nuevo inicio es nulo, eso significa que la cola está vacía ahora
+//            if (this.inicio == null) { 
+//                this.fin = null; 
+//            }
+//
+//            // Disminuyo el tamaño de la cola en uno
+//            this.tamaño = this.tamaño - 1; 
+//
+//            return datoEliminar; 
+//        }
+//        return null; 
+//    }
+    public Object desencolar(){
+        if(!this.estaVacia()) {
+           Object datoEliminar = this.inicio.getValorPrimitivo();
+           this.setInicio(this.inicio.getSiguiente());
+           return datoEliminar;
         }
-        return null; 
+        return null;
     }
 
     // Método para mostrar todos los elementos de la cola en un cuadro de diálogo
-    public void mostrar() {
-        // Primero, reviso si la cola no está vacía
-        if (this.estaVacia() == false) { 
-            String listaString = ""; // Inicializo una cadena vacía para los elementos
-
-            // Creo una variable temporal para recorrer la cola
-            NodoPrimitivo temp = this.inicio; 
-
-            // Mientras temp no sea nulo, sigo recorriendo
-            while (temp != null) {
-                // Agrego el valor del nodo actual a la cadena
-                listaString += temp.getValorPrimitivo() + "\n"; 
-                // Muevo temp al siguiente nodo
-                temp = temp.getSiguiente(); 
+    public void mostrar(){
+        if(!this.estaVacia()){
+            String listaString = "";
+            
+            NodoPrimitivo temp = this.inicio;
+            while(temp != null){
+                listaString += temp.getValorPrimitivo() + "\n";
+                temp = temp.getSiguiente();
             }
-
-            // Muestro todos los elementos en un cuadro de diálogo
-            JOptionPane.showMessageDialog(null, listaString); 
-        } else {
-            JOptionPane.showMessageDialog(null, "La cola está vacía."); 
+            
+            JOptionPane.showMessageDialog(null, listaString);
+        }else{
+            JOptionPane.showMessageDialog(null, "La lista esta vacia.");
         }
     }
 }

@@ -142,12 +142,12 @@ public class hashTable {
                         if (personaAct.getKnownAs().contains(nombre)) {
                             resultado.agregarAlFinal(personaAct);
                         } else if (personaAct.getFullName().contains(nombre)) {
-                            String nombreConNumeral = personaAct.getFullName() + " the " + personaAct.getOfHisName();
+                            String nombreConNumeral = personaAct.getFullName() + " " + personaAct.getOfHisName();
                             resultado.agregarAlFinal(personaAct);
                         }
                     } else {
                         if (personaAct.getFullName().contains(nombre)) {
-                            String nombreConNumeral = personaAct.getFullName() + " the " + personaAct.getOfHisName();
+                            String nombreConNumeral = personaAct.getFullName() + " " + personaAct.getOfHisName();
                             resultado.agregarAlFinal(personaAct);
                         }
                     }

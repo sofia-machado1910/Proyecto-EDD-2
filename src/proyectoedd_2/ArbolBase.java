@@ -125,14 +125,14 @@ public class ArbolBase {
                 if (persona.getKnownAs().equalsIgnoreCase(nombre)) {
                     return nodoActual; // Retorna el nodo si se encuentra
                 } else {
-                    String nombreRelacionado = persona.getFullName() + " the " + persona.getOfHisName();
+                    String nombreRelacionado = persona.getFullName() + " " + persona.getOfHisName();
 
                     if (nombreRelacionado.equalsIgnoreCase(nombre)) {
                         return nodoActual; // Retorna el nodo si se encuentra
                     }
                 }
             } else {
-                String nombreRelacionado = persona.getFullName() + " the " + persona.getOfHisName();
+                String nombreRelacionado = persona.getFullName() + " " + persona.getOfHisName();
 
                 if (nombreRelacionado.equalsIgnoreCase(nombre)) {
                     return nodoActual; // Retorna el nodo si se encuentra

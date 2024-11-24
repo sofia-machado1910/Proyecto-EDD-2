@@ -167,7 +167,7 @@ public class Persona {
         if(this.getKnownAs() != null){
            return this.getKnownAs();
         }
-        return this.fullName + " the " + this.ofHisName;
+        return this.fullName + " " + this.ofHisName;
     }
 
     /**
