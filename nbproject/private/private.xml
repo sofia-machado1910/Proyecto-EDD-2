@@ -3,11 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/pc/OneDrive/Documents/NetBeansProjects/ProyectoEDD_2/src/proyectoedd_2/CargaDeArchivo.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Documents/NetBeansProjects/ProyectoEDD_2/src/proyectoedd_2/ArbolBase.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Documents/NetBeansProjects/ProyectoEDD_2/src/proyectoedd_2/hashTable.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Documents/NetBeansProjects/ProyectoEDD_2/src/proyectoedd_2/Ventana1.java</file>
-            <file>file:/C:/Users/pc/OneDrive/Documents/NetBeansProjects/ProyectoEDD_2/src/proyectoedd_2/ArbolGenealogico.java</file>
+            <file>file:/C:/Users/Andrea/Documents/NetBeansProjects/Proyecto-EDD_2/src/Interfaces/BuscarNombre.java</file>
+            <file>file:/C:/Users/Andrea/Documents/NetBeansProjects/Proyecto-EDD_2/src/Interfaces/Menu.java</file>
+            <file>file:/C:/Users/Andrea/Documents/NetBeansProjects/Proyecto-EDD_2/src/Interfaces/Generación.java</file>
+            <file>file:/C:/Users/Andrea/Documents/NetBeansProjects/Proyecto-EDD_2/src/Interfaces/BuscarTitulo.java</file>
+            <file>file:/C:/Users/Andrea/Documents/NetBeansProjects/Proyecto-EDD_2/src/Interfaces/ListaAnt.java</file>
+            <file>file:/C:/Users/Andrea/Documents/NetBeansProjects/Proyecto-EDD_2/src/proyectoedd_2/NodoPrimitivo.java</file>
         </group>
     </open-files>
 </project-private>

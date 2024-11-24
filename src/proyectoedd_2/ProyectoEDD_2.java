@@ -4,6 +4,8 @@
  */
 package proyectoedd_2;
 
+import Interfaces.Json;
+
 /**
  *
  * @author pc
@@ -14,7 +16,7 @@ public class ProyectoEDD_2 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Ventana1 inicio = new Ventana1();
+        Json inicio = new Json();
     }
     
 }
