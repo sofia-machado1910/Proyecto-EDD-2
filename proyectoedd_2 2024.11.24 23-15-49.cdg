@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="proyectoedd_2">
+  <ClassDiagramComponents>
+    <Class name="Antepasados" package="proyectoedd_2" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields>
+        <Field name="antepasados" type="ListaEnlazada" visibility="private"/>
+        <Field name="visor" type="Viewer" visibility="private"/>
+        <Field name="panel" type="ViewPanel" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="ListaEnlazada" name="antepasados"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="inicializarVisor" returnType="void" visibility="private"/>
+        <Method name="configurarInterfaz" returnType="void" visibility="private"/>
+        <Method name="formacionDeGrafo" returnType="void" visibility="private">
+          <Argument type="Graph" name="grafo"/>
+        </Method>
+        <Method name="botonSalir" returnType="void" visibility="private"/>
+        <Method name="cerrarVentana" returnType="void" visibility="private"/>
+      </Methods>
+    </Class>
+    <Class name="ArbolBase" package="proyectoedd_2" visibility="public" xPosition="948.0" yPosition="809.0">
+      <Fields>
+        <Field name="raiz" type="NodoArbol" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getRaiz" returnType="NodoArbol" visibility="public"/>
+        <Method name="setRaiz" returnType="void" visibility="public">
+          <Argument type="NodoArbol" name="raiz"/>
+        </Method>
+        <Method name="crearRaiz" returnType="NodoArbol" visibility="public">
+          <Argument type="Object" name="dato"/>
+        </Method>
+        <Method name="isEmpty" returnType="boolean" visibility="public"/>
+        <Method name="agregarHijo" returnType="NodoArbol" visibility="public">
+          <Argument type="NodoArbol" name="padre"/>
+          <Argument type="Object" name="dato"/>
+        </Method>
+        <Method name="buscarConNombre" returnType="NodoArbol" visibility="public">
+          <Argument type="String" name="nombre"/>
+        </Method>
+        <Method name="buscarPorNombre" returnType="NodoArbol" visibility="public">
+          <Argument type="String" name="nombreUnico"/>
+        </Method>
+        <Method name="buscarConNombreDistintivo" returnType="NodoArbol" visibility="public">
+          <Argument type="String" name="nombre"/>
+        </Method>
+        <Method name="mayorNivel" returnType="int" visibility="public"/>
+        <Method name="obtenerNodosDeNivel" returnType="ListaEnlazada" visibility="public">
+          <Argument type="int" name="nivelBuscado"/>
+        </Method>
+        <Method name="mostrarNiveles" returnType="void" visibility="public"/>
+        <Method name="mostrarNivelesComoString" returnType="String" visibility="public"/>
+        <Method name="listaAncestros" returnType="ListaEnlazada" visibility="public">
+          <Argument type="NodoArbol" name="nodo"/>
+        </Method>
+        <Method name="obtenerAntepasados" returnType="ListaEnlazada" visibility="public">
+          <Argument type="NodoArbol" name="nodo"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="ArbolGenealogico" package="proyectoedd_2" visibility="public" xPosition="1324.0" yPosition="522.0">
+      <Fields>
+        <Field name="arbol" type="ArbolBase" visibility="private"/>
+        <Field name="linajeFamilia" type="String" visibility="private"/>
+        <Field name="hashTable" type="hashTable" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getArbol" returnType="ArbolBase" visibility="public"/>
+        <Method name="getLinajeFamilia" returnType="String" visibility="public"/>
+        <Method name="getHashTable" returnType="hashTable" visibility="public"/>
+        <Method name="setArbol" returnType="void" visibility="public">
+          <Argument type="ArbolBase" name="arbol"/>
+        </Method>
+        <Method name="setLinajeFamilia" returnType="void" visibility="public">
+          <Argument type="String" name="linajeFamilia"/>
+        </Method>
+        <Method name="setHashTable" returnType="void" visibility="public">
+          <Argument type="hashTable" name="hashTable"/>
+        </Method>
+        <Method name="buscarConNombre" returnType="Persona[]" visibility="public">
+          <Argument type="String" name="nombre"/>
+        </Method>
+        <Method name="buscarConTitulo" returnType="Persona[]" visibility="public">
+          <Argument type="String" name="titulo"/>
+        </Method>
+        <Method name="crearArregloPersonas" returnType="Persona[]" visibility="public">
+          <Argument type="ListaEnlazada" name="hallazgos"/>
+        </Method>
+        <Method name="mostrarHallazgos" returnType="String" visibility="public">
+          <Argument type="Persona[]" name="resultado"/>
+        </Method>
+        <Method name="infoPersona" returnType="String" visibility="public">
+          <Argument type="Persona" name="persona"/>
+        </Method>
+        <Method name="descendencia" returnType="ArbolBase" visibility="public">
+          <Argument type="Persona" name="persona"/>
+        </Method>
+        <Method name="descendencia2" returnType="ArbolBase" visibility="public">
+          <Argument type="Persona[]" name="arreglo"/>
+          <Argument type="int" name="index"/>
+        </Method>
+        <Method name="mostrarBusquedaSoloNombre" returnType="String" visibility="public">
+          <Argument type="Persona[]" name="resultado"/>
+        </Method>
+        <Method name="buscarSoloNombre" returnType="Persona[]" visibility="public">
+          <Argument type="String" name="nombre"/>
+        </Method>
+        <Method name="buscarGeneracion" returnType="Persona[]" visibility="public">
+          <Argument type="int" name="numGen"/>
+        </Method>
+        <Method name="generacionesExistentes" returnType="ListaEnlazada" visibility="public"/>
+        <Method name="mostrarGeneracion" returnType="String" visibility="public">
+          <Argument type="Persona[]" name="resultados"/>
+          <Argument type="int" name="numeroGen"/>
+        </Method>
+        <Method name="alternativasDeGeneracion" returnType="ListaEnlazada" visibility="public"/>
+        <Method name="antepasados" returnType="ListaEnlazada" visibility="public">
+          <Argument type="Persona" name="persona"/>
+        </Method>
+        <Method name="mostrarAntepasados" returnType="ListaEnlazada" visibility="public">
+          <Argument type="Persona[]" name="arreglo"/>
+          <Argument type="int" name="index"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="CargaDeArchivo" package="proyectoedd_2" visibility="public" xPosition="612.0" yPosition="11.0">
+      <Fields>
+        <Field name="arbolGenealogico" type="ArbolGenealogico" visibility="private"/>
+        <Field name="nombreRepetido" type="int" visibility="private"/>
+        <Field name="errores" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getArbolGenealogico" returnType="ArbolGenealogico" visibility="public"/>
+        <Method name="getNombreRepetido" returnType="int" visibility="public"/>
+        <Method name="getErrores" returnType="int" visibility="public"/>
+        <Method name="setArbolGenealogico" returnType="void" visibility="public">
+          <Argument type="ArbolGenealogico" name="arbolGenealogico"/>
+        </Method>
+        <Method name="setNombreRepetido" returnType="void" visibility="public">
+          <Argument type="int" name="nombreRepetido"/>
+        </Method>
+        <Method name="setErrores" returnType="void" visibility="public">
+          <Argument type="int" name="errores"/>
+        </Method>
+        <Method name="cargarJSON" returnType="void" visibility="public">
+          <Argument type="String" name="rutaJSON"/>
+        </Method>
+        <Method name="incorporarHashTable" returnType="void" visibility="private">
+          <Argument type="JsonObject" name="personaObj"/>
+        </Method>
+        <Method name="incorporarArbol" returnType="void" visibility="private">
+          <Argument type="JsonObject" name="personaObj"/>
+        </Method>
+        <Method name="establecerPersona" returnType="Persona" visibility="private">
+          <Argument type="String" name="nombreCompleto"/>
+          <Argument type="JsonArray" name="personDetails"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Cola" package="proyectoedd_2" visibility="public" xPosition="1108.0" yPosition="1.0">
+      <Fields>
+        <Field name="fin" type="NodoPrimitivo" visibility="private"/>
+        <Field name="inicio" type="NodoPrimitivo" visibility="private"/>
+        <Field name="tamaño" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getFin" returnType="NodoPrimitivo" visibility="public"/>
+        <Method name="getInicio" returnType="NodoPrimitivo" visibility="public"/>
+        <Method name="getTamaño" returnType="int" visibility="public"/>
+        <Method name="setFin" returnType="void" visibility="public">
+          <Argument type="NodoPrimitivo" name="fin"/>
+        </Method>
+        <Method name="setInicio" returnType="void" visibility="public">
+          <Argument type="NodoPrimitivo" name="inicio"/>
+        </Method>
+        <Method name="setTamaño" returnType="void" visibility="public">
+          <Argument type="int" name="tamaño"/>
+        </Method>
+        <Method name="estaVacia" returnType="boolean" visibility="public"/>
+        <Method name="encolar" returnType="void" visibility="public">
+          <Argument type="Object" name="dato"/>
+        </Method>
+        <Method name="desencolar" returnType="Object" visibility="public"/>
+        <Method name="mostrar" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Descendencia" package="proyectoedd_2" visibility="public" xPosition="958.0" yPosition="1373.0">
+      <Fields>
+        <Field name="arbol" type="ArbolBase" visibility="private"/>
+        <Field name="visor" type="Viewer" visibility="private"/>
+        <Field name="panel" type="ViewPanel" visibility="private"/>
+        <Field name="buscarNombre" type="BuscarNombre" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="ArbolBase" name="arbol"/>
+          <Argument type="BuscarNombre" name="buscarNombre"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="detallesGrafo" returnType="void" visibility="private"/>
+        <Method name="inicializar" returnType="void" visibility="private"/>
+        <Method name="construirArbol" returnType="void" visibility="private">
+          <Argument type="Graph" name="arbolVisual"/>
+        </Method>
+        <Method name="insertarSubarbol" returnType="void" visibility="private">
+          <Argument type="NodoArbol" name="nodoActual"/>
+          <Argument type="String" name="padreId"/>
+          <Argument type="Graph" name="arbolVisual"/>
+        </Method>
+        <Method name="close" returnType="void" visibility="private"/>
+        <Method name="volverDescendencia" returnType="void" visibility="private"/>
+      </Methods>
+    </Class>
+    <Class name="GrafoArbol" package="proyectoedd_2" visibility="public" xPosition="1820.0" yPosition="20.0">
+      <Fields>
+        <Field name="arbol" type="ArbolBase" visibility="private"/>
+        <Field name="viewer" type="Viewer" visibility="private"/>
+        <Field name="ventana" type="ViewPanel" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="ArbolBase" name="arbol"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="iniciarInterfaz" returnType="void" visibility="private"/>
+        <Method name="iniciarViewer" returnType="void" visibility="private"/>
+        <Method name="estiloArbol" returnType="void" visibility="private">
+          <Argument type="Graph" name="arbolVisual"/>
+        </Method>
+        <Method name="formarArbol" returnType="void" visibility="private">
+          <Argument type="Graph" name="arbolVisual"/>
+        </Method>
+        <Method name="generarSubarboles" returnType="void" visibility="private">
+          <Argument type="NodoArbol" name="nodoActual"/>
+          <Argument type="String" name="padreId"/>
+          <Argument type="Graph" name="arbolVisual"/>
+        </Method>
+        <Method name="mostrarMensaje" returnType="void" visibility="private">
+          <Argument type="String" name="mensaje"/>
+        </Method>
+        <Method name="agregarBotonRegresar" returnType="void" visibility="private"/>
+        <Method name="cerrarViewer" returnType="void" visibility="private"/>
+        <Method name="abrirMenu" returnType="void" visibility="private"/>
+      </Methods>
+    </Class>
+    <Class name="hashTable" package="proyectoedd_2" visibility="public" xPosition="1820.0" yPosition="809.0">
+      <Fields>
+        <Field name="tabla" type="ListaEnlazada[]" visibility="private"/>
+        <Field name="size" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="size"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getTabla" returnType="ListaEnlazada[]" visibility="public"/>
+        <Method name="getSize" returnType="int" visibility="public"/>
+        <Method name="setTabla" returnType="void" visibility="public">
+          <Argument type="ListaEnlazada[]" name="tabla"/>
+        </Method>
+        <Method name="setSize" returnType="void" visibility="public">
+          <Argument type="int" name="size"/>
+        </Method>
+        <Method name="hash" returnType="int" visibility="private">
+          <Argument type="Object" name="key"/>
+        </Method>
+        <Method name="iniciar" returnType="void" visibility="private"/>
+        <Method name="put" returnType="void" visibility="public">
+          <Argument type="Object" name="key"/>
+          <Argument type="Object" name="dato"/>
+        </Method>
+        <Method name="buscarEnTabla" returnType="Object" visibility="public">
+          <Argument type="String" name="key"/>
+        </Method>
+        <Method name="buscarPorTitulo" returnType="ListaEnlazada" visibility="public">
+          <Argument type="String" name="titulo"/>
+        </Method>
+        <Method name="buscarPorNombre" returnType="ListaEnlazada" visibility="public">
+          <Argument type="String" name="nombre"/>
+        </Method>
+        <Method name="buscarSoloConNombre" returnType="ListaEnlazada" visibility="public">
+          <Argument type="String" name="nombre"/>
+        </Method>
+        <Method name="mostrarTabla" returnType="void" visibility="public"/>
+        <Method name="deshacerLista" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="ListaEnlazada" package="proyectoedd_2" visibility="public" xPosition="90.0" yPosition="460.0">
+      <Fields>
+        <Field name="cabeza" type="NodoPrimitivo" visibility="private"/>
+        <Field name="cantidad" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getCabeza" returnType="NodoPrimitivo" visibility="public"/>
+        <Method name="getCantidad" returnType="int" visibility="public"/>
+        <Method name="setCabeza" returnType="void" visibility="public">
+          <Argument type="NodoPrimitivo" name="cabeza"/>
+        </Method>
+        <Method name="setCantidad" returnType="void" visibility="public">
+          <Argument type="int" name="cantidad"/>
+        </Method>
+        <Method name="estaVacia" returnType="boolean" visibility="public"/>
+        <Method name="agregarAlFinal" returnType="void" visibility="public">
+          <Argument type="Object" name="dato"/>
+        </Method>
+        <Method name="eliminarDelFinal" returnType="void" visibility="public"/>
+        <Method name="buscar" returnType="boolean" visibility="public">
+          <Argument type="Object" name="dato"/>
+        </Method>
+        <Method name="mostrar" returnType="void" visibility="public"/>
+        <Method name="getValor" returnType="Object" visibility="public">
+          <Argument type="int" name="posicion"/>
+        </Method>
+        <Method name="destruir" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Nivel" package="proyectoedd_2" visibility="public" xPosition="296.0" yPosition="20.0">
+      <Fields>
+        <Field name="nodoArbol" type="NodoArbol" visibility="private"/>
+        <Field name="profundidad" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="NodoArbol" name="nodoArbol"/>
+          <Argument type="int" name="profundidad"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getNodoArbol" returnType="NodoArbol" visibility="public"/>
+        <Method name="getProfundidad" returnType="int" visibility="public"/>
+        <Method name="setNodoArbol" returnType="void" visibility="public">
+          <Argument type="NodoArbol" name="nodoArbol"/>
+        </Method>
+        <Method name="setProfundidad" returnType="void" visibility="public">
+          <Argument type="int" name="profundidad"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="NodoArbol" package="proyectoedd_2" visibility="public" xPosition="518.0" yPosition="562.0">
+      <Fields>
+        <Field name="valor" type="Object" visibility="private"/>
+        <Field name="personaNodo" type="Persona" visibility="private"/>
+        <Field name="nodoPadre" type="NodoArbol" visibility="private"/>
+        <Field name="nodosHijos" type="ListaEnlazada" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Object" name="valor"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Persona" name="persona"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getValor" returnType="Object" visibility="public"/>
+        <Method name="getPersonaNodo" returnType="Persona" visibility="public"/>
+        <Method name="setPersonaNodo" returnType="void" visibility="public">
+          <Argument type="Persona" name="personaNodo"/>
+        </Method>
+        <Method name="getNodoPadre" returnType="NodoArbol" visibility="public"/>
+        <Method name="getNodosHijos" returnType="ListaEnlazada" visibility="public"/>
+        <Method name="obtenerValor" returnType="Object" visibility="public"/>
+        <Method name="setValor" returnType="void" visibility="public">
+          <Argument type="Object" name="valor"/>
+        </Method>
+        <Method name="setNodoPadre" returnType="void" visibility="public">
+          <Argument type="NodoArbol" name="nodoPadre"/>
+        </Method>
+        <Method name="setNodosHijos" returnType="void" visibility="public">
+          <Argument type="ListaEnlazada" name="nodosHijos"/>
+        </Method>
+        <Method name="agregarHijo" returnType="void" visibility="public">
+          <Argument type="NodoArbol" name="hijo"/>
+        </Method>
+        <Method name="tieneHijo" returnType="boolean" visibility="public">
+          <Argument type="Persona" name="personaNodo"/>
+        </Method>
+        <Method name="esHoja" returnType="boolean" visibility="public"/>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="NodoPrimitivo" package="proyectoedd_2" visibility="public" xPosition="1489.0" yPosition="248.0">
+      <Fields>
+        <Field name="valorPrimitivo" type="Object" visibility="private"/>
+        <Field name="siguiente" type="NodoPrimitivo" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Object" name="valorPrimitivo"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getValorPrimitivo" returnType="Object" visibility="public"/>
+        <Method name="getSiguiente" returnType="NodoPrimitivo" visibility="public"/>
+        <Method name="setValorPrimitivo" returnType="void" visibility="public">
+          <Argument type="Object" name="valorPrimitivo"/>
+        </Method>
+        <Method name="setSiguiente" returnType="void" visibility="public">
+          <Argument type="NodoPrimitivo" name="siguiente"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Persona" package="proyectoedd_2" visibility="public" xPosition="8.0" yPosition="1107.0">
+      <Fields>
+        <Field name="fullName" type="String" visibility="package"/>
+        <Field name="ofHisName" type="String" visibility="package"/>
+        <Field name="father" type="String" visibility="package"/>
+        <Field name="mother" type="String" visibility="package"/>
+        <Field name="knownAs" type="String" visibility="package"/>
+        <Field name="title" type="String" visibility="package"/>
+        <Field name="wedTo" type="String" visibility="package"/>
+        <Field name="ofEyes" type="String" visibility="package"/>
+        <Field name="ofHair" type="String" visibility="package"/>
+        <Field name="notes" type="String" visibility="package"/>
+        <Field name="fate" type="String" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="fullName"/>
+          <Argument type="String" name="ofHisName"/>
+          <Argument type="String" name="father"/>
+          <Argument type="String" name="mother"/>
+          <Argument type="String" name="knownAs"/>
+          <Argument type="String" name="title"/>
+          <Argument type="String" name="wedTo"/>
+          <Argument type="String" name="ofEyes"/>
+          <Argument type="String" name="ofHair"/>
+          <Argument type="String" name="notes"/>
+          <Argument type="String" name="fate"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="String" name="fullName"/>
+          <Argument type="String" name="ofHisName"/>
+          <Argument type="String" name="father"/>
+          <Argument type="String" name="title"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getFullName" returnType="String" visibility="public"/>
+        <Method name="getOfHisName" returnType="String" visibility="public"/>
+        <Method name="getFather" returnType="String" visibility="public"/>
+        <Method name="getMother" returnType="String" visibility="public"/>
+        <Method name="getKnownAs" returnType="String" visibility="public"/>
+        <Method name="getTitle" returnType="String" visibility="public"/>
+        <Method name="getWedTo" returnType="String" visibility="public"/>
+        <Method name="getOfEyes" returnType="String" visibility="public"/>
+        <Method name="getOfHair" returnType="String" visibility="public"/>
+        <Method name="getNotes" returnType="String" visibility="public"/>
+        <Method name="getFate" returnType="String" visibility="public"/>
+        <Method name="setFullName" returnType="void" visibility="public">
+          <Argument type="String" name="fullName"/>
+        </Method>
+        <Method name="setOfHisName" returnType="void" visibility="public">
+          <Argument type="String" name="ofHisName"/>
+        </Method>
+        <Method name="setFather" returnType="void" visibility="public">
+          <Argument type="String" name="father"/>
+        </Method>
+        <Method name="setMother" returnType="void" visibility="public">
+          <Argument type="String" name="mother"/>
+        </Method>
+        <Method name="setKnownAs" returnType="void" visibility="public">
+          <Argument type="String" name="knownAs"/>
+        </Method>
+        <Method name="setTitle" returnType="void" visibility="public">
+          <Argument type="String" name="title"/>
+        </Method>
+        <Method name="setWedTo" returnType="void" visibility="public">
+          <Argument type="String" name="wedTo"/>
+        </Method>
+        <Method name="setOfEyes" returnType="void" visibility="public">
+          <Argument type="String" name="ofEyes"/>
+        </Method>
+        <Method name="setOfHair" returnType="void" visibility="public">
+          <Argument type="String" name="ofHair"/>
+        </Method>
+        <Method name="setNotes" returnType="void" visibility="public">
+          <Argument type="String" name="notes"/>
+        </Method>
+        <Method name="setFate" returnType="void" visibility="public">
+          <Argument type="String" name="fate"/>
+        </Method>
+        <Method name="distinctiveName" returnType="String" visibility="public"/>
+        <Method name="getNombreUnico" returnType="String" visibility="public"/>
+        <Method name="getNombreNumeral" returnType="String" visibility="public"/>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="ProyectoEDD_2" package="proyectoedd_2" visibility="public" xPosition="2122.0" yPosition="642.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Validar" package="proyectoedd_2" visibility="public" xPosition="2090.0" yPosition="483.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="validarSoloNumeros" returnType="boolean" visibility="private">
+          <Argument type="String" name="num"/>
+        </Method>
+        <Method name="validarNumeros" returnType="int" visibility="public">
+          <Argument type="String" name="numero"/>
+        </Method>
+        <Method name="validarIndice" returnType="boolean" visibility="public">
+          <Argument type="int" name="max"/>
+          <Argument type="int" name="indice"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <UseRelation source="proyectoedd_2.Cola" target="proyectoedd_2.NodoPrimitivo" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="fin" source="proyectoedd_2.Cola" target="proyectoedd_2.NodoPrimitivo" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="proyectoedd_2.ArbolGenealogico" target="proyectoedd_2.Persona" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="arbol" source="proyectoedd_2.Descendencia" target="proyectoedd_2.ArbolBase" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="proyectoedd_2.ArbolBase" target="proyectoedd_2.ListaEnlazada" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="raiz" source="proyectoedd_2.ArbolBase" target="proyectoedd_2.NodoArbol" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="nodoArbol" source="proyectoedd_2.Nivel" target="proyectoedd_2.NodoArbol" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="proyectoedd_2.ArbolBase" target="proyectoedd_2.NodoArbol" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="nodoPadre" source="proyectoedd_2.NodoArbol" target="proyectoedd_2.NodoArbol" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="proyectoedd_2.ArbolGenealogico" target="proyectoedd_2.ArbolBase" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="cabeza" source="proyectoedd_2.ListaEnlazada" target="proyectoedd_2.NodoPrimitivo" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="proyectoedd_2.GrafoArbol" target="proyectoedd_2.NodoArbol" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="proyectoedd_2.NodoArbol" target="proyectoedd_2.Persona" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="proyectoedd_2.Descendencia" target="proyectoedd_2.NodoArbol" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="proyectoedd_2.ListaEnlazada" target="proyectoedd_2.NodoPrimitivo" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="proyectoedd_2.NodoArbol" target="proyectoedd_2.NodoArbol" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="arbol" source="proyectoedd_2.ArbolGenealogico" target="proyectoedd_2.ArbolBase" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="proyectoedd_2.CargaDeArchivo" target="proyectoedd_2.ArbolGenealogico" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="hashTable" source="proyectoedd_2.ArbolGenealogico" target="proyectoedd_2.hashTable" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="proyectoedd_2.ArbolGenealogico" target="proyectoedd_2.ListaEnlazada" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="arbol" source="proyectoedd_2.GrafoArbol" target="proyectoedd_2.ArbolBase" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="proyectoedd_2.NodoPrimitivo" target="proyectoedd_2.NodoPrimitivo" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="proyectoedd_2.hashTable" target="proyectoedd_2.ListaEnlazada" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="proyectoedd_2.NodoArbol" target="proyectoedd_2.ListaEnlazada" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="nodosHijos" source="proyectoedd_2.NodoArbol" target="proyectoedd_2.ListaEnlazada" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ListaEnlazada"/>
+    <HasRelation name="antepasados" source="proyectoedd_2.Antepasados" target="proyectoedd_2.ListaEnlazada" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ListaEnlazada"/>
+    <HasRelation name="inicio" source="proyectoedd_2.Cola" target="proyectoedd_2.NodoPrimitivo" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="personaNodo" source="proyectoedd_2.NodoArbol" target="proyectoedd_2.Persona" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="proyectoedd_2.CargaDeArchivo" target="proyectoedd_2.Persona" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="arbolGenealogico" source="proyectoedd_2.CargaDeArchivo" target="proyectoedd_2.ArbolGenealogico" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="proyectoedd_2.ArbolGenealogico" target="proyectoedd_2.hashTable" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="proyectoedd_2.Nivel" target="proyectoedd_2.NodoArbol" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="siguiente" source="proyectoedd_2.NodoPrimitivo" target="proyectoedd_2.NodoPrimitivo" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
