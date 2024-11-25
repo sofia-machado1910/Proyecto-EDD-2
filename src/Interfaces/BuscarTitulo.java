@@ -4,7 +4,8 @@
  */
 package Interfaces;
 import proyectoedd_2.Persona;
-import proyectoedd_2.ArbolGenealogico;
+import static Interfaces.Json.arbolGenealogico;
+import static Interfaces.Json.validar;
 import javax.swing.JOptionPane;
 /**
  *
@@ -38,6 +39,9 @@ public class BuscarTitulo extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         personaTF = new javax.swing.JTextArea();
         botonRegresar = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        NumeroPersona = new javax.swing.JTextField();
+        detallesPersona = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -50,12 +54,12 @@ public class BuscarTitulo extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Escriba el título de la persona que busca: ");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 39, -1, -1));
+        jLabel2.setText("Ingrese el número correspondiente a la persona:");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, -1, -1));
 
         tituloTF.setForeground(new java.awt.Color(153, 153, 153));
         tituloTF.setText("título...");
-        getContentPane().add(tituloTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 61, 307, -1));
+        getContentPane().add(tituloTF, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 307, -1));
 
         botonBuscar.setText("Buscar");
         botonBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -63,7 +67,7 @@ public class BuscarTitulo extends javax.swing.JFrame {
                 botonBuscarActionPerformed(evt);
             }
         });
-        getContentPane().add(botonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(333, 61, -1, -1));
+        getContentPane().add(botonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 70, -1, -1));
 
         personaTF.setColumns(20);
         personaTF.setRows(5);
@@ -77,10 +81,24 @@ public class BuscarTitulo extends javax.swing.JFrame {
                 botonRegresarActionPerformed(evt);
             }
         });
-        getContentPane().add(botonRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 270, -1, -1));
+        getContentPane().add(botonRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 350, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Escriba el título de la persona que busca: ");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
+        getContentPane().add(NumeroPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 80, -1));
+
+        detallesPersona.setText("Ver detalles de persona");
+        detallesPersona.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                detallesPersonaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(detallesPersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, -1, -1));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Interfaces/arbolbg.jpg"))); // NOI18N
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 310));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 380));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -95,12 +113,12 @@ public class BuscarTitulo extends javax.swing.JFrame {
         String titulo = tituloTF.getText();
     
         // Llamar al método buscarTitulo del árbol genealógico y guardar el resultado
-        coincidencias = ArbolGenealogico.buscarConTitulo(titulo);
+        coincidencias = arbolGenealogico.buscarConTitulo(titulo);
     
         // Verificar si se encontraron resultados
         if (coincidencias != null) {
         // Si hay resultados, mostrar los resultados en el área de texto
-        String resultados = ArbolGenealogico.mostrarResultados(coincidencias);
+        String resultados = arbolGenealogico.mostrarHallazgos(coincidencias);
         personaTF.setText(resultados);
         } else {
         // Si no hay resultados, mostrar un mensaje de advertencia
@@ -110,6 +128,21 @@ public class BuscarTitulo extends javax.swing.JFrame {
         // Limpiar el campo de texto de búsqueda
         tituloTF.setText("");
     }//GEN-LAST:event_botonBuscarActionPerformed
+
+    private void detallesPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detallesPersonaActionPerformed
+        String indiceStr = NumeroPersona.getText();
+        if (validar.validarNumeros(indiceStr) != -1) {
+            int index = validar.validarNumeros(indiceStr);
+            if (validar.validarIndice(coincidencias.length, index)) {
+                JOptionPane.showMessageDialog(null, coincidencias[index].toString());
+            } else {
+                JOptionPane.showMessageDialog(null, "Indice Invalido");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe ser un numero entero");
+        }
+        NumeroPersona.setText("");
+    }//GEN-LAST:event_detallesPersonaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,11 +180,14 @@ public class BuscarTitulo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField NumeroPersona;
     private javax.swing.JButton botonBuscar;
     private javax.swing.JButton botonRegresar;
+    private javax.swing.JButton detallesPersona;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea personaTF;
     private javax.swing.JTextField tituloTF;

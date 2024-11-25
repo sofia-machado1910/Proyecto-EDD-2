@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Interfaces;
+
+import proyectoedd_2.GrafoArbol;
+import static Interfaces.Json.arbolGenealogico;
 import proyectoedd_2.Validar;
 /**
  *
@@ -48,12 +51,12 @@ public class Menu extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Menu del Linaje");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 6, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Elige la opción que desees realizar a continuación");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 39, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, -1, -1));
 
         botonCargar.setText("Cargar otro Archivo");
         botonCargar.addActionListener(new java.awt.event.ActionListener() {
@@ -61,7 +64,7 @@ public class Menu extends javax.swing.JFrame {
                 botonCargarActionPerformed(evt);
             }
         });
-        jPanel1.add(botonCargar, new org.netbeans.lib.awtextra.AbsoluteConstraints(125, 61, -1, -1));
+        jPanel1.add(botonCargar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, 190, -1));
 
         botonArbol.setText("Ver Arbol");
         botonArbol.addActionListener(new java.awt.event.ActionListener() {
@@ -69,7 +72,7 @@ public class Menu extends javax.swing.JFrame {
                 botonArbolActionPerformed(evt);
             }
         });
-        jPanel1.add(botonArbol, new org.netbeans.lib.awtextra.AbsoluteConstraints(149, 90, -1, -1));
+        jPanel1.add(botonArbol, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 130, 190, -1));
 
         botonNombre.setText("Buscar por Nombre");
         botonNombre.addActionListener(new java.awt.event.ActionListener() {
@@ -77,7 +80,7 @@ public class Menu extends javax.swing.JFrame {
                 botonNombreActionPerformed(evt);
             }
         });
-        jPanel1.add(botonNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(125, 119, -1, -1));
+        jPanel1.add(botonNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 170, 190, -1));
 
         botonTitulo.setText("Buscar por Titulo");
         botonTitulo.addActionListener(new java.awt.event.ActionListener() {
@@ -85,7 +88,7 @@ public class Menu extends javax.swing.JFrame {
                 botonTituloActionPerformed(evt);
             }
         });
-        jPanel1.add(botonTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 148, -1, -1));
+        jPanel1.add(botonTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 210, 190, -1));
 
         botonAntepasados.setText("Lista de Antepasados");
         botonAntepasados.addActionListener(new java.awt.event.ActionListener() {
@@ -93,7 +96,7 @@ public class Menu extends javax.swing.JFrame {
                 botonAntepasadosActionPerformed(evt);
             }
         });
-        jPanel1.add(botonAntepasados, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 177, -1, -1));
+        jPanel1.add(botonAntepasados, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, 190, -1));
 
         botonGeneracion.setText("Integrantes de una Generación");
         botonGeneracion.addActionListener(new java.awt.event.ActionListener() {
@@ -101,10 +104,10 @@ public class Menu extends javax.swing.JFrame {
                 botonGeneracionActionPerformed(evt);
             }
         });
-        jPanel1.add(botonGeneracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(93, 206, -1, -1));
+        jPanel1.add(botonGeneracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 290, -1, -1));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Interfaces/arbolbg.jpg"))); // NOI18N
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 250));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, 330));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -135,17 +138,20 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_botonTituloActionPerformed
 
     private void botonAntepasadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAntepasadosActionPerformed
-        Antepasados ventanaAntepasados = new Antepasados();
+        ListaAnt ventanaAntepasados = new ListaAnt();
         this.dispose();
     }//GEN-LAST:event_botonAntepasadosActionPerformed
 
     private void botonGeneracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGeneracionActionPerformed
-        Generacion v4 = new Generacion(); // Asumiendo que esta clase existe
+        Generación venatanaVerGeneracion = new Generación(); // Asumiendo que esta clase existe
         this.dispose();
     }//GEN-LAST:event_botonGeneracionActionPerformed
 
     private void botonArbolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonArbolActionPerformed
-        // TODO add your handling code here:
+        System.setProperty("org.graphstream.ui", "swing");
+        GrafoArbol verArbol = new GrafoArbol(arbolGenealogico.getArbol());
+        verArbol.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_botonArbolActionPerformed
 
     /**

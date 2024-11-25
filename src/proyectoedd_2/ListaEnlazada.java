@@ -116,6 +116,23 @@ public class ListaEnlazada {
         }
     }
     
+    public Object getValor(int posicion){
+
+        if(posicion>=0 && posicion<cantidad){
+            
+            if (posicion == 0) {
+                return cabeza.getValorPrimitivo();
+            }else{
+                NodoPrimitivo aux = cabeza;
+                for (int i = 0; i < posicion; i++) {
+                    aux = aux.getSiguiente();
+                }
+                return aux.getValorPrimitivo();
+            }
+        }
+        return null;
+    }
+    
     // Método para destruir toda la lista y liberar memoria
     public void destruir() {
         this.cabeza = null; // Establece cabeza como nula para liberar los nodos

@@ -104,9 +104,9 @@ public class ArbolGenealogico {
      * @return Cadena con los resultados obtenidos.
      */
     public String mostrarHallazgos(Persona[] resultado) {
-        String resultStr = "Resultados obtenidos de la Busqueda:\n";
+        String resultStr = "Coincidencias con su busqueda:\n";
         for (int i = 0; i < resultado.length; i++) {
-            resultStr += i + " " + "Conocido como: " + resultado[i].getKnownAs() + " Nombre: " + resultado[i].getFullName() + " the " + resultado[i].getOfHisName() + "\n";
+            resultStr += i + ") " + "Mote: " + resultado[i].getKnownAs() + "\n Nombre y numeral en familia: " + resultado[i].getFullName() + " the " + resultado[i].getOfHisName() + "\n";
         }
         return resultStr;
     }
@@ -127,8 +127,107 @@ public class ArbolGenealogico {
         return this.hashTable.buscarEnTabla(clave).toString();
     }
 
+    public ArbolBase descendencia(Persona persona) {
+        ArbolBase arbolDescendencia = new ArbolBase();
+        arbolDescendencia.setRaiz(this.arbol.buscarConNombre(persona.getNombreUnico()));
+        return arbolDescendencia;
+    }
+    
+    public ArbolBase descendencia2(Persona[] arreglo, int index) {
+        if (index >= 0 && index < arreglo.length) {
+            String clave = "";
 
+            if (arreglo[index].getKnownAs() != null) {
+                clave = arreglo[index].getKnownAs();
+            } else {
+                clave = arreglo[index].getFullName() + " " + arreglo[index].getOfHisName();
+            }
+
+            NodoArbol raiz2 = this.getArbol().buscarConNombreDistintivo(clave);
+
+            ArbolBase arbolDesc = new ArbolBase();
+            arbolDesc.setRaiz(raiz2);
+
+            
+            return arbolDesc;
+        } else {
+           
+            return null;
+        }
+    }
+        
+    public String mostrarBusquedaSoloNombre(Persona[] resultado) {
+        String resultadoStr = "";
+        for (int i = 0; i < resultado.length; i++) {
+            resultadoStr += "Indice: " + i + ", Nombre: " + resultado[i].getNombreNumeral() + "\n";
+        }
+        return resultadoStr;
+    }
+    
+    public Persona[] buscarSoloNombre(String nombre) {
+        ListaEnlazada resultados = this.hashTable.buscarSoloConNombre(nombre);
+
+        if (!resultados.estaVacia()) {
+            Persona[] resultadoBusq = new Persona[resultados.getCantidad()];
+            for (int i = 0; i < resultados.getCantidad(); i++) {
+                resultadoBusq[i] = (Persona) resultados.getValor(i);
+            }
+            return resultadoBusq;
+        }
+        return null;
+    }
+    
+    public Persona[] buscarGeneracion(int numGen) {
+        ListaEnlazada generacion = this.arbol.obtenerNodosDeNivel(numGen);
+        if (!generacion.estaVacia()) {
+            Persona[] resultadoBusq = new Persona[generacion.getCantidad()];
+            for (int i = 0; i < generacion.getCantidad(); i++) {
+                resultadoBusq[i] = (Persona) generacion.getValor(i);
+            }
+
+            return resultadoBusq;
+        }
+        return null;
+    }
+    
+    public ListaEnlazada generacionesExistentes() {
+        ListaEnlazada generaciones = new ListaEnlazada();
+        int maxGen = this.arbol.mayorNivel();
+        for (int i = 0; i < maxGen; i++) {
+            generaciones.agregarAlFinal(i + 1);
+        }
+
+        return generaciones;
+    }
+        
+    public String mostrarGeneracion(Persona[] resultados, int numeroGen) {
+        String resultadosStr = "Generacion: " + numeroGen;
+        for (Persona resultado : resultados) {
+            resultadosStr += resultado.toString() + "\n\n";
+        }
+
+        return resultadosStr;
+    }
+    
     public ListaEnlazada alternativasDeGeneracion() {
+        return null;
+    }
+    
+    public ListaEnlazada antepasados(Persona persona) {
+        NodoArbol nodo = this.arbol.buscarConNombre(persona.getNombreUnico());
+        return this.getArbol().obtenerAntepasados(nodo);
+    }
+        
+    public ListaEnlazada mostrarAntepasados(Persona[] arreglo, int index) {
+        if (index >= 0 && index < arreglo.length) {
+            String clave = arreglo[index].getKnownAs() != null ? arreglo[index].getKnownAs() : 
+                           arreglo[index].getFullName() + " " + arreglo[index].getOfHisName();
+
+            NodoArbol raiz = arbol.buscarConNombreDistintivo(clave);
+            if (raiz != null) {
+                return arbol.listaAncestros(raiz);
+            }
+        }
         return null;
     }
 }

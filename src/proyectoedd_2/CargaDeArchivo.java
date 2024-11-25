@@ -14,6 +14,8 @@ import java.io.IOException;
  */
 public class CargaDeArchivo {
     private ArbolGenealogico arbolGenealogico; // Instancia del árbol genealógico.
+    private int nombreRepetido = 0;
+    private int errores = 0;
 
     /**
      * Constructor que inicializa el árbol genealógico.
@@ -27,8 +29,24 @@ public class CargaDeArchivo {
         return arbolGenealogico;
     }
 
+    public int getNombreRepetido() {
+        return nombreRepetido;
+    }
+    
+    public int getErrores() {
+        return errores;
+    }
+    
     public void setArbolGenealogico(ArbolGenealogico arbolGenealogico) {
         this.arbolGenealogico = arbolGenealogico;
+    }
+
+    public void setNombreRepetido(int nombreRepetido) {
+        this.nombreRepetido = nombreRepetido;
+    }
+    
+    public void setErrores(int errores) {
+        this.errores = errores;
     }
 
     /**
@@ -57,6 +75,9 @@ public class CargaDeArchivo {
                     this.incorporarArbol(personaObj);
                 }
             }
+            if(errores != 0 || nombreRepetido!= 0){
+                this.arbolGenealogico = null;
+            }
         } catch (IOException e) {
             System.out.println("Error al leer el JSON: " + e.getMessage());
         }
@@ -72,9 +93,13 @@ public class CargaDeArchivo {
         JsonArray personDetails = personaObj.getAsJsonArray(nombreCompleto);
         Persona nuevaPersona = establecerPersona(nombreCompleto, personDetails);
         
-        // Se utiliza el mote o el nombre completo con el ordinal de su nombre en su familia como clave en la tabla hash.
-        String clave = (nuevaPersona.getKnownAs() != null) ? nuevaPersona.getKnownAs() : nuevaPersona.getFullName() + " " + nuevaPersona.getOfHisName();
-        this.arbolGenealogico.getHashTable().put(clave, nuevaPersona);
+        if(nuevaPersona.getKnownAs() != null){
+            String clave = nuevaPersona.getKnownAs();
+            this.arbolGenealogico.getHashTable().put(clave, nuevaPersona);
+        }else{
+            String clave = nuevaPersona.getFullName() +" "+ nuevaPersona.getOfHisName();
+            this.arbolGenealogico.getHashTable().put(clave, nuevaPersona);
+        }
     }
     
     /**
@@ -91,10 +116,26 @@ public class CargaDeArchivo {
         if (nuevaPersona.getFather().equalsIgnoreCase("[Unknown]")) {
             this.arbolGenealogico.getArbol().crearRaiz(nuevaPersona);
         } else {
-            nuevaPersona.setFather(nuevaPersona.getFather().replaceAll("of his name", "").replaceAll(",", "").trim());
-            NodoArbol padre = this.arbolGenealogico.getArbol().buscarConNombreDistintivo(nuevaPersona.getFather());
-            if (padre != null) {
-                this.arbolGenealogico.getArbol().agregarHijo(padre, nuevaPersona);
+            if(nuevaPersona.getFather().contains("of his name")){
+                nuevaPersona.setFather(nuevaPersona.getFather().replaceAll("of his name", "").replaceAll(",", "").trim());
+                
+                NodoArbol padre = this.arbolGenealogico.getArbol().buscarConNombreDistintivo(nuevaPersona.getFather());
+                if(padre != null){
+                    if(this.arbolGenealogico.getArbol().agregarHijo(padre, nuevaPersona) == null){
+                        nombreRepetido++;
+                    }
+                }else{
+                   errores++; 
+                }
+            }else{
+                NodoArbol padre = this.arbolGenealogico.getArbol().buscarConNombreDistintivo(nuevaPersona.getFather());
+                if(padre != null){
+                    if(this.arbolGenealogico.getArbol().agregarHijo(padre, nuevaPersona) == null){
+                        nombreRepetido++;
+                    }
+                }else{
+                    errores++;
+                }
             }
         }
     }

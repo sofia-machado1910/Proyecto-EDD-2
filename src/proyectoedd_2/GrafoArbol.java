@@ -16,6 +16,14 @@ import org.graphstream.graph.implementations.SingleGraph;
 import javax.swing.*;  
 import java.awt.*;  
 
+import Interfaces.Menu;
+import java.awt.BorderLayout;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import org.graphstream.graph.Graph;
+import org.graphstream.ui.swing_viewer.ViewPanel;
+import org.graphstream.ui.view.Viewer;
+
 public class GrafoArbol extends JFrame {  
 
     private ArbolBase arbol;  
@@ -31,7 +39,7 @@ public class GrafoArbol extends JFrame {
 
     private void iniciarInterfaz() {  
         setTitle("Viewer de Árbol");  
-        setSize(700, 500);  
+        setSize(800, 600);  
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
         setLayout(new BorderLayout());  
         setLocationRelativeTo(null);  
@@ -87,12 +95,6 @@ public class GrafoArbol extends JFrame {
 
     private void mostrarMensaje(String mensaje) {  
         JOptionPane.showMessageDialog(this, mensaje);  
-    }  
-
-    private void mostrarInfoPersona(Persona persona) {  
-        String info = String.format("Información de la Persona:\nNombre: %s\nPadre: %s\nMadre: %s",  
-                persona.getFullName(), persona.getFather(), persona.getMother());  
-        JOptionPane.showMessageDialog(this, info, "Detalles de Persona", JOptionPane.INFORMATION_MESSAGE);  
     }  
 
     private void agregarBotonRegresar() {  

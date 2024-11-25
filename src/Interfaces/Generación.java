@@ -3,48 +3,32 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Interfaces;
+
+import static Interfaces.Json.arbolGenealogico;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
-import proyectoedd_2.ListaEnlazada;
-import proyectoedd_2.NodoPrimitivo;
-import javax.swing.DefaultComboBoxModel;
+import proyectoedd_2.Persona;
 
 /**
  *
  * @author Andrea
  */
 public class Generación extends javax.swing.JFrame {
-    DefaultComboBoxModel Generacion = new DefaultComboBoxModel();
-    /**
-     * Creates new form Generación
-     */
+    DefaultComboBoxModel opcionesDeGeneracion = new DefaultComboBoxModel();
+    private Persona[] resultados = null;
+    
     public Generación() {
         initComponents();
         this.setVisible(true);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        this.cargarGeneracionesComboBox();
+        this.formarGeneracion();
     }
-
-    private void cargarGeneracionesComboBox() {
-    // Obtener la lista de generaciones desde el árbol genealógico
-    ListaEnlazada generaciones = arbolGenealogico.opcionesDeGeneracion();
     
-    // Comenzar desde el primer nodo de la lista de generaciones
-    NodoPrimitivo temp = generaciones.getCabeza();
-    
-    // Mientras haya un nodo en la lista
-    while (temp != null) {
-        // Obtener el dato del nodo actual, que es la generación
-        String generacionActual = (String) temp.getValorPrimitivo();
-        
-        // Agregar la generación actual al modelo del combo box
-        Generacion.addElement(generacionActual);
-        
-        // Pasar al siguiente nodo en la lista
-        temp = temp.getSiguiente();
-    }  
-}
+    private void formarGeneracion(){
+        for (int i = 0; i < arbolGenealogico.generacionesExistentes().getCantidad(); i++) {
+            opcionesDeGeneracion.addElement(arbolGenealogico.generacionesExistentes().getValor(i));
+        }
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -101,7 +85,12 @@ public class Generación extends javax.swing.JFrame {
         });
         jPanel1.add(botonRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 266, -1, -1));
 
-        boxGeneraciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        boxGeneraciones.setModel(opcionesDeGeneracion);
+        boxGeneraciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boxGeneracionesActionPerformed(evt);
+            }
+        });
         jPanel1.add(boxGeneraciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 400, -1));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Interfaces/arbolbg.jpg"))); // NOI18N
@@ -127,8 +116,18 @@ public class Generación extends javax.swing.JFrame {
     }//GEN-LAST:event_botonRegresarActionPerformed
 
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
-        // TODO add your handling code here:
+        int numGen = (int) boxGeneraciones.getSelectedItem();
+        resultados = arbolGenealogico.buscarGeneracion(numGen);
+        if(resultados==null){
+            coincidenciasTF.setText("No hay resultados que coincidan con tu busqueda\n");
+        }else{
+            coincidenciasTF.setText(arbolGenealogico.mostrarGeneracion(resultados, numGen));   
+        }
     }//GEN-LAST:event_botonBuscarActionPerformed
+
+    private void boxGeneracionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boxGeneracionesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_boxGeneracionesActionPerformed
 
     /**
      * @param args the command line arguments

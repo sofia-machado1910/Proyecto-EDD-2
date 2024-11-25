@@ -10,6 +10,7 @@ package proyectoedd_2;
  */
 public class NodoArbol {
     private Object valor; // Almacena el valor del nodo
+    private Persona personaNodo;
     private NodoArbol nodoPadre; // Referencia al nodo padre
     private ListaEnlazada nodosHijos; // Lista que contiene los nodos hijos
 
@@ -23,12 +24,26 @@ public class NodoArbol {
         this.nodosHijos = new ListaEnlazada(); // Crea una nueva lista para los hijos
     }
     
+    public NodoArbol(Persona persona) {
+        this.personaNodo = persona;
+        this.nodoPadre = null;
+        this.nodosHijos = new ListaEnlazada();
+    }
+    
     /**
      * Obtiene el valor almacenado en el nodo.
      * @return El valor del nodo.
      */
     public Object getValor() {
         return valor; // Retorna el valor del nodo
+    }
+    
+    public Persona getPersonaNodo() {
+        return personaNodo;
+    }
+
+    public void setPersonaNodo(Persona personaNodo) {
+        this.personaNodo = personaNodo;
     }
 
     /**
@@ -86,6 +101,19 @@ public class NodoArbol {
         this.nodosHijos.agregarAlFinal(hijo); 
     }
     
+    public boolean tieneHijo(Persona personaNodo) {
+        NodoPrimitivo aux = this.nodosHijos.getCabeza();
+
+        while (aux != null) {
+            NodoArbol nodoHijo = (NodoArbol) aux.getValorPrimitivo();
+            if (nodoHijo.getPersonaNodo().getNombreUnico().equalsIgnoreCase(personaNodo.getNombreUnico())) {
+                return true;
+            }
+            aux = aux.getSiguiente();
+        }
+        return false;
+    }
+    
     /**
      * Determina si este nodo es una hoja (no tiene hijos).
      * @return true si es hoja, false en caso contrario.
@@ -97,5 +125,10 @@ public class NodoArbol {
         } else {
             return false; // Si no está vacía, retorno falso
         }
+    }
+    
+    @Override
+    public String toString() {
+        return "Persona:" + personaNodo.getNombreUnico();
     }
 }

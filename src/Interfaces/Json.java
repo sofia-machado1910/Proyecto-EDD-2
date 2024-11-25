@@ -5,23 +5,12 @@
 package Interfaces;
 
 import javax.swing.*;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import proyectoedd_2.ArbolGenealogico;
 import proyectoedd_2.ArbolGenealogico;
 import proyectoedd_2.CargaDeArchivo;
-import proyectoedd_2.CargaDeArchivo;
-import proyectoedd_2.NodoPrimitivo;
-import proyectoedd_2.ListaEnlazada;
+import proyectoedd_2.Validar;
 import proyectoedd_2.hashTable;
-import proyectoedd_2.Persona;
-import proyectoedd_2.hashTable;
+import proyectoedd_2.GrafoArbol;
 
 /**
  * Clase Ventana1 para crear una interfaz gráfica de usuario en la que se pueda cargar archivos JSON desde el dispositivo, 
@@ -33,7 +22,9 @@ import proyectoedd_2.hashTable;
 public class Json extends javax.swing.JFrame {
     private hashTable hashTable; // Instancia de la tabla de dispersión
     public static ArbolGenealogico arbolGenealogico; 
+    public static Validar validar = new Validar();
     private FileChooser fileChooser = new FileChooser();
+    
     
     /**
      * Constructor de la clase Ventana1.
@@ -160,7 +151,24 @@ class FileChooser {
         String rutaJSON = fileChooser.seleccionarJSON(this);
         CargaDeArchivo cargar = new CargaDeArchivo();
         cargar.cargarJSON(rutaJSON);
-        arbolGenealogico = cargar.getArbolGenealogico();
+        if (cargar.getArbolGenealogico() != null) {
+            arbolGenealogico = cargar.getArbolGenealogico();
+            System.setProperty("org.graphstream.ui", "swing");
+            GrafoArbol verArbol = new GrafoArbol(arbolGenealogico.getArbol());
+            verArbol.setVisible(true);
+            this.dispose();
+
+        } else {
+            if (cargar.getErrores() != 0 && cargar.getNombreRepetido() == 0) {
+                JOptionPane.showMessageDialog(null, "ERROR : incongruencia en la identificación de un padre. Por favor cargue un JSON adecuado.");
+            } else if (cargar.getErrores() == 0 && cargar.getNombreRepetido() != 0) {
+                JOptionPane.showMessageDialog(null, "ERROR : se encontraron dos personas con el mismo nombre.");
+            } else {
+                JOptionPane.showMessageDialog(null, "ERROR : incongruencia en la identificación de un padre. Por favor cargue un JSON adecuado.");
+                JOptionPane.showMessageDialog(null, "ERROR : se encontraron dos personas con el mismo nombre.");
+            }
+
+        }
     }//GEN-LAST:event_CargarJSONActionPerformed
 
 

@@ -102,6 +102,38 @@ public class ArbolBase {
         }
         return null; 
     }
+    
+    public NodoArbol buscarPorNombre(String nombreUnico) {
+        if (isEmpty()) {
+            return null;
+        }
+
+        Cola cola = new Cola();
+        cola.encolar(raiz);
+
+        while (!cola.estaVacia()) {
+            NodoArbol actual = (NodoArbol) cola.desencolar();
+            Persona persona = actual.getPersonaNodo();
+
+            // Comparación por mote o nombre completo + numeral
+            if (persona.getKnownAs() != null && persona.getKnownAs().equalsIgnoreCase(nombreUnico)) {
+                return actual;
+            }
+            
+            if (persona.getNombreNumeral().equalsIgnoreCase(nombreUnico)) {
+                return actual;
+            }
+
+            // Encolar hijos
+            NodoPrimitivo hijo = actual.getNodosHijos().getCabeza();
+            while (hijo != null) {
+                cola.encolar(hijo.getValorPrimitivo());
+                hijo = hijo.getSiguiente();
+            }
+        }
+
+        return null;
+    }
 
     /**
      * Busca un nodo por el mote o nombre completo con numeral de la persona asociada a él.
@@ -148,7 +180,7 @@ public class ArbolBase {
         }
         return null;
     }
-
+    
     /**
      * Calcula el nivel máximo del árbol.
      * @return El nivel máximo del árbol, o 0 si está vacío.
@@ -236,5 +268,61 @@ public class ArbolBase {
             }
             System.out.println(arbolString); // Imprime el árbol por consola
         }
+    }
+    
+    public String mostrarNivelesComoString() {  
+        if (this.isEmpty()) {   
+            return "El árbol está vacío.";
+        } else {  
+            StringBuilder arbolString = new StringBuilder("Árbol genealógico:\n");  
+            Cola cola = new Cola();  
+            cola.encolar(raiz);  
+
+            while (!cola.estaVacia()) {  
+                NodoArbol nodoActual = (NodoArbol) cola.desencolar();  
+                Persona persona = (Persona) nodoActual.getValor(); 
+
+                arbolString.append(persona).append("\n\n"); 
+
+                NodoPrimitivo hijoNodo = nodoActual.getNodosHijos().getCabeza();
+                while (hijoNodo != null) {  
+                    NodoArbol hijo = (NodoArbol) hijoNodo.getValorPrimitivo();
+                    cola.encolar(hijo);
+                    hijoNodo = hijoNodo.getSiguiente();
+                }  
+            }  
+            return arbolString.toString();
+        }  
+    }
+    
+    public ListaEnlazada listaAncestros(NodoArbol nodo) {
+        if (nodo != null) {
+            ListaEnlazada ancestros = new ListaEnlazada();
+            NodoArbol nodoActual = nodo.getNodoPadre();
+
+            while (nodoActual != null) {
+                Persona personaAct = (Persona) nodoActual.getValor();
+                ancestros.agregarAlFinal(personaAct);
+                nodoActual = nodoActual.getNodoPadre();
+            }
+            return ancestros;
+        }
+        return null;
+    }
+    
+    public ListaEnlazada obtenerAntepasados(NodoArbol nodo) {
+        if (nodo == null) {
+            return null;
+        }
+
+        ListaEnlazada antepasados = new ListaEnlazada();
+        NodoArbol actual = nodo.getNodoPadre();
+
+        while (actual != null) {
+            antepasados.agregarAlFinal(actual.getPersonaNodo());
+            actual = actual.getNodoPadre();
+        }
+
+        return antepasados;
     }
 }

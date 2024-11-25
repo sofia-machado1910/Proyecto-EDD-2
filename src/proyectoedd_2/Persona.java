@@ -169,7 +169,18 @@ public class Persona {
         }
         return this.fullName + " " + this.ofHisName;
     }
-
+    
+    public String getNombreUnico(){
+        if(this.knownAs == null){
+            return this.getNombreNumeral();
+        }
+        return this.knownAs;
+    }
+    
+    public String getNombreNumeral(){
+        return this.getFullName() + " " + this.getOfHisName(); 
+    }
+    
     /**
      * Devuelve la información de la persona con ciertos atributos.
      * 
@@ -177,7 +188,7 @@ public class Persona {
      */
     @Override
     public String toString() {
-        StringBuilder info = new StringBuilder("Nombre: " + fullName + "\n").append(this.distinctiveName());;
+        StringBuilder info = new StringBuilder("Nombre: " + fullName + "\n").append(this.distinctiveName() + "\n");;
         info.append("Padre: " + (father != null ? father : "null") + "\n");
         info.append("Madre: " + (mother != null ? mother : "null") + "\n");
         info.append("Mote: " + (knownAs != null ? knownAs : "null") + "\n");
@@ -185,7 +196,7 @@ public class Persona {
         info.append("Casado con: " + (wedTo != null ? wedTo : "null") + "\n");
         info.append("Color de ojos: " + (ofEyes != null ? ofEyes : "null") + "\n");
         info.append("Color de cabello: " + (ofHair != null ? ofHair : "null") + "\n");
-        info.append("\nNotas: " + (notes != null ? notes : "null") + "\n");
+        info.append("Notas: " + (notes != null ? notes : "null") + "\n");
         info.append("Destino: " + (fate != null ? fate : "null") + "\n");
         return info.toString();
     }    

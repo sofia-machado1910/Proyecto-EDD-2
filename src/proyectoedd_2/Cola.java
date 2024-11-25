@@ -58,7 +58,7 @@ public class Cola {
     }
 
     // Método para verificar si la cola está vacía
-        public boolean estaVacia() {
+    public boolean estaVacia() {
         return this.inicio == null; // Retorna verdadero si inicio es nulo
     }
 
@@ -76,28 +76,6 @@ public class Cola {
         tamaño++; // Incrementa el tamaño de la cola
     }
 
-    // Método para desencolar (quitar) el primer elemento de la cola
-//    public Object desencolar() {
-//        // Primero, revisa si la cola no está vacía
-//        if (this.estaVacia() == false) { 
-//            // Obtiene el valor del primer nodo
-//            Object datoEliminar = this.inicio.getValorPrimitivo(); 
-//
-//            // Mueve el inicio al siguiente nodo
-//            this.inicio = this.inicio.getSiguiente(); 
-//
-//            // Si el nuevo inicio es nulo, eso significa que la cola está vacía ahora
-//            if (this.inicio == null) { 
-//                this.fin = null; 
-//            }
-//
-//            // Disminuyo el tamaño de la cola en uno
-//            this.tamaño = this.tamaño - 1; 
-//
-//            return datoEliminar; 
-//        }
-//        return null; 
-//    }
     public Object desencolar(){
         if(!this.estaVacia()) {
            Object datoEliminar = this.inicio.getValorPrimitivo();

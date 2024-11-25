@@ -4,7 +4,6 @@
  */
 package proyectoedd_2;
 
-import javax.swing.JOptionPane;
 
 /**
  * Clase que implementa una tabla de dispersión (HashTable).
@@ -156,6 +155,23 @@ public class hashTable {
             }
         }
         return resultado;
+    }
+    
+    public ListaEnlazada buscarSoloConNombre(String nombre) {
+        ListaEnlazada resultados = new ListaEnlazada();
+
+        for (int i = 0; i < size; i++) {
+            ListaEnlazada lista = tabla[i];
+
+            for (int j = 0; j < lista.getCantidad(); j++) {
+                Persona persona = (Persona) lista.getValor(j);
+
+                if (persona.getFullName().toLowerCase().contains(nombre.toLowerCase())) {
+                    resultados.agregarAlFinal(persona);
+                }
+            }
+        }
+        return resultados;
     }
     
     /**

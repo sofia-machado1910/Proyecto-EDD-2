@@ -29,4 +29,8 @@ public class Validar {
             return -1; 
         }
     }
+    
+    public boolean validarIndice(int max, int indice){
+        return max > indice && indice>=0;
+    }
 }
