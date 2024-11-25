@@ -17,6 +17,7 @@ public class ProyectoEDD_2 {
      */
     public static void main(String[] args) {
         Json inicio = new Json();
+        inicio.setVisible(true);
     }
     
 }
