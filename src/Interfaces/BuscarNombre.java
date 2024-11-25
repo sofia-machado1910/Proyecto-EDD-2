@@ -13,7 +13,9 @@ import static Interfaces.Json.validar;
 import javax.swing.*;
 
 /**
- *
+ * Clase que representa la interfaz gráfica para buscar una persona por su nombre.
+ * Extiende de JFrame para crear una ventana de aplicación.
+ * 
  * @author Andrea Villasmil
  */
 public class BuscarNombre extends javax.swing.JFrame {

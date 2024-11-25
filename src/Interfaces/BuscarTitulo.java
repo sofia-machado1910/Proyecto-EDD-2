@@ -7,8 +7,11 @@ import proyectoedd_2.Persona;
 import static Interfaces.Json.arbolGenealogico;
 import static Interfaces.Json.validar;
 import javax.swing.JOptionPane;
+
 /**
- *
+ * Clase que representa la interfaz gráfica para buscar una persona por su título.
+ * Extiende de JFrame para crear una ventana de aplicación.
+ * 
  * @author Andrea Villasmil
  */
 public class BuscarTitulo extends javax.swing.JFrame {

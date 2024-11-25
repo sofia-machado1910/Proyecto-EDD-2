@@ -9,20 +9,31 @@ import javax.swing.DefaultComboBoxModel;
 import proyectoedd_2.Persona;
 
 /**
- *
- * @author Andrea
+ * Clase Generación que extiende JFrame para mostrar los integrantes de una generación específica.
+ * Permite al usuario seleccionar una generación y ver sus integrantes.
+ * 
+ * @author Andrea Villasil
  */
 public class Generación extends javax.swing.JFrame {
-    DefaultComboBoxModel opcionesDeGeneracion = new DefaultComboBoxModel();
-    private Persona[] resultados = null;
+    DefaultComboBoxModel opcionesDeGeneracion = new DefaultComboBoxModel(); // Modelo para el combo box de generaciones
+    private Persona[] resultados = null; // Almacena los resultados de la búsqueda de generación
+    
+    /**
+     * Constructor de la clase Generación.
+     * Inicializa los componentes de la interfaz y configura la ventana.
+     */
     
     public Generación() {
         initComponents();
         this.setVisible(true);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        this.formarGeneracion();
+        this.formarGeneracion(); // Llena el combo box con las generaciones existentes
     }
+    
+    /**
+     * Llena el combo box con las generaciones existentes en el árbol genealógico.
+     */
     
     private void formarGeneracion(){
         for (int i = 0; i < arbolGenealogico.generacionesExistentes().getCantidad(); i++) {
@@ -110,11 +121,21 @@ public class Generación extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Método llamado al presionar el botón "Regresar al Menú".
+     * Cierra la ventana actual y abre el menú principal.
+     */
+    
     private void botonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegresarActionPerformed
         Menu menu = new Menu();
         this.dispose();
     }//GEN-LAST:event_botonRegresarActionPerformed
 
+     /**
+     * Método llamado al presionar el botón "Buscar".
+     * Busca los integrantes de la generación seleccionada y los muestra en el área de texto.
+     */
+    
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         int numGen = (int) boxGeneraciones.getSelectedItem();
         resultados = arbolGenealogico.buscarGeneracion(numGen);
@@ -130,8 +151,10 @@ public class Generación extends javax.swing.JFrame {
     }//GEN-LAST:event_boxGeneracionesActionPerformed
 
     /**
-     * @param args the command line arguments
+     * Método principal para ejecutar la aplicación.
+     * Configura el look and feel y muestra la ventana de generación.
      */
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

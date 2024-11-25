@@ -5,7 +5,10 @@
 package proyectoedd_2;
 
 /**
- *
+ * Clase que representa un nodo en un árbol.
+ * Cada nodo puede contener un valor y referencias a su padre y a sus hijos.
+ * Además, puede almacenar una instancia de la clase Persona.
+ * 
  * @author Andrea Villasmil
  */
 public class NodoArbol {

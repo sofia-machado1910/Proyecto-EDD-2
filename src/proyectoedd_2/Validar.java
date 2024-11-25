@@ -5,7 +5,9 @@
 package proyectoedd_2;
 
 /**
- *
+ * Clase que proporciona métodos para validar datos de entrada.
+ * Incluye validación de cadenas numéricas y verificación de índices.
+ * 
  * @author Andrea Villasmil
  */
 

@@ -11,12 +11,17 @@ import static Interfaces.Json.arbolGenealogico;
 import proyectoedd_2.Antepasados;
 import proyectoedd_2.ListaEnlazada;
 
-/**
- *
- * @author Andrea
+/** Clase que representa la interfaz gráfica para mostrar la lista de antepasados de una persona.
+ * Extiende de JFrame para crear una ventana de aplicación.
+ * 
+ * @author Andrea Villasmil
  */
 public class ListaAnt extends javax.swing.JFrame {
     private Persona[] coincidencias;
+    
+    /** Constructor de la clase ListaAnt.
+     * Inicializa los componentes de la interfaz gráfica y configura la ventana.
+     */
     
     public ListaAnt() {
         initComponents();
@@ -124,11 +129,24 @@ public class ListaAnt extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /** Maneja la acción del botón "Regresar".
+     * Crea una nueva instancia del menú y cierra la ventana actual.
+     * 
+     * @param evt Evento de acción generado por el botón.
+     */
+    
     private void botonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegresarActionPerformed
         Menu menu = new Menu();
         this.dispose();
     }//GEN-LAST:event_botonRegresarActionPerformed
 
+    /** Maneja la acción del botón "Buscar".
+     * Busca coincidencias de personas en el árbol genealógico según el nombre ingresado.
+     * Muestra los resultados en el campo de texto correspondiente.
+     * 
+     * @param evt Evento de acción generado por el botón.
+     */
+    
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         String nombre = nombreTF.getText();
 
@@ -147,6 +165,12 @@ public class ListaAnt extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_numeroPersonaActionPerformed
 
+    /** Maneja la acción del botón para mostrar antepasados.
+     * Valida el índice ingresado y muestra la lista de antepasados correspondiente.
+     * 
+     * @param evt Evento de acción generado por el botón.
+     */
+    
     private void arbolAntepasadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arbolAntepasadosActionPerformed
         if (!numeroPersona.getText().isEmpty()) {
             String indexStr = numeroPersona.getText();

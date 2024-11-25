@@ -8,14 +8,22 @@ import proyectoedd_2.GrafoArbol;
 import static Interfaces.Json.arbolGenealogico;
 import proyectoedd_2.Validar;
 /**
- *
+ * Clase que representa el menú principal de la aplicación.
+ * Extiende de JFrame para crear una ventana de aplicación.
  * @author Andrea Villasmil
  */
 public class Menu extends javax.swing.JFrame {
-    public static Validar validar = new Validar();
+
     /**
-     * Creates new form Menu
+     *
      */
+    public static Validar validar = new Validar();
+    
+    /**
+     * Constructor de la clase Menu.
+     * Inicializa los componentes de la interfaz gráfica y configura la ventana.
+     */
+    
     public Menu() {
         initComponents();
         this.setVisible(true);
@@ -147,9 +155,16 @@ public class Menu extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_botonGeneracionActionPerformed
 
+    /** Maneja la acción del botón "Ver Arbol".
+ * Configura la propiedad de visualización para GraphStream y crea una nueva instancia de la clase GrafoArbol,
+ * que se utiliza para mostrar el árbol genealógico. Luego, hace visible la ventana del árbol y cierra la ventana actual.
+ * 
+ * @param evt Evento de acción generado por el botón.
+ */
+    
     private void botonArbolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonArbolActionPerformed
-        System.setProperty("org.graphstream.ui", "swing");
-        GrafoArbol verArbol = new GrafoArbol(arbolGenealogico.getArbol());
+        System.setProperty("org.graphstream.ui", "swing"); // Configura la propiedad de visualización para usar Swing.
+        GrafoArbol verArbol = new GrafoArbol(arbolGenealogico.getArbol()); // Crea una nueva instancia de GrafoArbol, pasando el árbol genealógico obtenido.
         verArbol.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_botonArbolActionPerformed

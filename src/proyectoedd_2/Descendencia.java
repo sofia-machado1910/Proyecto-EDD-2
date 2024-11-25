@@ -16,6 +16,9 @@ import org.graphstream.ui.view.Viewer;
 
 /**
  *
+ * Clase Descendencia que extiende JFrame para mostrar un árbol genealógico.
+ * Utiliza la biblioteca GraphStream para la visualización del grafo.
+ * 
  * @author Sofia Machado
  */
 public class Descendencia extends JFrame{
@@ -25,6 +28,13 @@ public class Descendencia extends JFrame{
     private BuscarNombre buscarNombre;
 
     
+    /**
+     * Constructor de la clase Descendencia.
+     * 
+     * @param arbol El árbol base que contiene la estructura genealógica.
+     * @param buscarNombre Interfaz para buscar nombres en el árbol.
+     */
+    
     public Descendencia(ArbolBase arbol, BuscarNombre buscarNombre) {
         this.arbol = arbol;
         this.buscarNombre = buscarNombre;
@@ -33,6 +43,10 @@ public class Descendencia extends JFrame{
         inicializar();
     }
 
+    
+    /**
+     * Configura los detalles de la ventana del grafo.
+     */
     
     private void detallesGrafo() {
         setTitle("Árbol Genealógico");
@@ -51,6 +65,10 @@ public class Descendencia extends JFrame{
     }
 
    
+    /**
+     * Inicializa el grafo visual y lo muestra en la ventana.
+     */
+    
     private void inicializar() {
         Graph arbolVisual = new MultiGraph("Árbol Genealógico");
         construirArbol(arbolVisual);
@@ -65,6 +83,12 @@ public class Descendencia extends JFrame{
     }
 
     
+    /**
+     * Construye el grafo del árbol genealógico.
+     * 
+     * @param arbolVisual El grafo donde se construirá el árbol.
+     */
+    
     private void construirArbol(Graph arbolVisual) {
         if (arbol.isEmpty()) {
             JOptionPane.showMessageDialog(this, "El árbol está vacío.");
@@ -75,6 +99,15 @@ public class Descendencia extends JFrame{
                 + "edge { size: 4px; fill-color: brown; }"); 
     }
 
+    
+    /**
+     * Inserta un subárbol en el grafo visual.
+     * 
+     * @param nodoActual El nodo actual del árbol.
+     * @param padreId El identificador del nodo padre en el grafo.
+     * @param arbolVisual El grafo donde se insertará el subárbol.
+     */
+    
     private void insertarSubarbol(NodoArbol nodoActual, String padreId, Graph arbolVisual) {
         Persona persona = nodoActual.getPersonaNodo();
         String nodoId = persona.getNombreUnico();
@@ -98,6 +131,10 @@ public class Descendencia extends JFrame{
         }
     }
 
+    /**
+     * Cierra el visor del grafo y limpia el panel.
+     */
+    
     private void close() {
         if (visor != null) {
             visor.disableAutoLayout();
@@ -109,6 +146,10 @@ public class Descendencia extends JFrame{
         }
     }
 
+    /**
+     * Vuelve a mostrar la interfaz de búsqueda de nombres.
+     */
+    
     private void volverDescendencia() {
         buscarNombre.setVisible(true); // Mostrar el menú
     }

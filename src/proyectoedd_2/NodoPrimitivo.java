@@ -5,7 +5,9 @@
 package proyectoedd_2;
 
 /**
- *
+ * Clase que representa un nodo en una lista enlazada.
+ * Cada nodo almacena un valor y una referencia al siguiente nodo en la lista.
+ * 
  * @author Andrea Villasmil
  */
 
